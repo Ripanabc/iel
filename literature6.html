@@ -1,0 +1,721 @@
+<html lang=en>
+<head>
+<style>
+  body {
+   line-height: 1.5;
+   font-family: 'EB Garamond', serif;
+   font-size: 16px;
+   font-kerning: auto;
+   background-image: ;
+}
+
+.h2 {
+font-size: 20px;
+font-kerning: auto;
+}
+
+.h3 {
+font-size: 18px;
+}
+
+.all {
+display: grid;
+grid-template-rows: 40px 22px 18px 25px 350px 120px;
+grid-template-columns: 33px 1fr 33px;
+grid-column-gap: 10px;
+grid-template-areas:
+    "m h ."
+    ". s ."
+    ". t ."
+    ". . ."
+    ". c ."
+    "f f f";
+}
+
+div .bar {
+  width: 22px;
+  height: 2px;
+  margin: 2px;
+  background-color: black;
+}
+
+.mobile {
+  display: flex;
+  grid-area: m;
+  align-content: baseline;
+  margin: 14px 0px 0px 10px;
+}
+
+.mobile-menu-content {
+  display: none;
+  background-color: #f9f9f9;
+  min-width: 100%;
+  position: absolute;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  grid-area: m;
+}
+
+.mobile:hover .mobile-menu-content {
+display: flex;
+justify-content: flex-start;
+font-family: Freight;
+font-kerning: 5px;
+}
+
+ul {
+list-style: none;
+}
+
+li {
+margin-bottom: 10px;
+}
+
+.header {
+  grid-area: h;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: small-caps;
+  font-size: 24px;
+  font-kerning: auto;
+  letter-spacing: 1px;
+}
+
+.content {
+  grid-area: c;
+  display: flex;
+  }
+
+.subhead {
+  grid-area: s;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 16px;
+  font-kerning: auto;
+  color: gray;
+}
+
+.title { 
+  grid-area: t;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+  font-kerning: auto;
+  margin-top: 10px;
+  letter-spacing: .5px;
+  margin-bottom: 10px;
+}
+
+
+
+.footer {
+  display: flex;
+  grid-area: f;
+  justify-content: space-around;
+}
+
+.carousel {
+  max-width: 100%;
+  position: relative;
+  margin: 5px;
+}
+p
+.slide {
+  display: none;
+}
+
+
+.dot {
+  cursor: pointer;
+  height: 8px;
+  width: 8px;
+  margin: 0 .5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.dotlarge {
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  margin: 0;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #000000;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: gray;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  color: rgba(0,0,0,0.8);
+}
+
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+ </style>
+  </head>
+<body>
+
+<container class="all">
+
+<div class="mobile">
+<a href="#">
+<div class="bar">
+  </div>
+<div class="bar">
+  </div>
+<div class="bar">
+  </div>
+  </a>
+
+<div class="mobile-menu-content">
+<ul>
+<li>
+Home
+  </li>
+<li>
+About
+  </li>
+<li>
+Prayer Request
+  </li>
+<li>
+Donations
+  </li>
+  </ul>
+  </div>
+  </div>
+
+<div class="header">
+ English 
+  </div>
+
+
+<div class="subhead">
+  
+</div>
+ 
+  <div class="title">
+  </div>
+    
+
+<div class="content">
+    <div class="carousel">
+       <div class="slide fade">
+<h1> Completing sentences</h1>
+1.If+v<sub>1</sub>..... 
+ shall/will/can/may+v<sub>1</sub><br>
+ 2. If+ have / has+v<sub>3</sub>......shall/will/can/may+v<sub>1</sub><br>
+ 
+ 
+ 3. If + V<sub>2</sub>...... would/could/might +v<sub>1</sub><br>
+ 4. If + were........ would/could/might +v<sub>1</sub>..<br>
+ 5. Were +sub+...... would<br>/could/might +v<sub>1</sub><br>
+ 6.Had+sub+noun+....... would/could/might +v<sub>1</sub><br>
+ 
+ 
+ 7. Had+sub+ V<sub>3</sub>.......would have/ could have / might have+V<sub>3</sub><br>
+ 8. If+sub+had+ V<sub>3</sub>.......would have/ could have / might have+V<sub>3</sub><br>
+ 
+ 9. It is hight time + s + V<sub>2....</sub><br>
+ 10.It is high time to+V<sub>1</sub>.....(same subject)<br>
+111.It is high time for+object+to+V<sub>1</sub>.....( different subject)<br>
+12. Lest+s+ should/might+V<sub>1</sub><br>
+13.a.V<sub>1</sub>......as if ,as though,since... V<sub>2</sub>......<br>
+b..V<sub>2</sub>......as if ,as though,since ..had+ V<sub>3</sub>......<br>
+c..V<sub>1/2</sub>......as if ,as though,since.....sub+ were......<br>
+14.It is high time, It is now time, It is time,It is....time, wish, fancy, as if, as though এর পর be verb থাকলে were হয় তবে অন্য কোন verb থাকলে তার past form হয়।<br>
+
+15.a.....V<sub>1</sub>......as....as......V<sub>1</sub>......<br>
+b..V<sub>2</sub>......as....as...V<sub>1</sub>......<br>
+16. No sooner had......than / Hardly hard.....when/before...../scarcely had.....when<br>
+a.No sooner had+sub+V<sub>3</sub>.........than+sub+V<sub>2</sub>......<br>
+b.Hardly had+sub+V<sub>3</sub>.......when/before.+sub+V<sub>2</sub>......<br>
+c.Scarcely had+sub+V<sub>3</sub>.........when+sub+V<sub>2</sub>......<br>
+d.No sooner did+sub+V<sub>1</sub>.........than+sub+V<sub>2</sub>......<br>
+e.Hardly did+sub+V<sub>1</sub>.......when/before.+sub+V<sub>2</sub>..<br>
+f.Scarcely did+sub+V<sub>1</sub>.........when+sub+V<sub>2</sub>..<br>
+g..No sooner do/does+sub+V<sub>1</sub>....than+sub+V<sub>1</sub>..<br>
+h.Hardly do/does+sub+V<sub>1</sub>....when/before.+sub+V<sub>1</sub>...<br>
+i.Scarcely do/does+sub+V<sub>1</sub>....when+sub+V<sub>1</sub>...<br>
+17.while+verbing<br>
+18. While + sub + am/is/are / was / were + verbing<br>
+19.a......had+V<sub>3</sub>+before ... V<sub>2</sub><br>
+ b. ...V<sub>2</sub>after...had+V<sub>3</sub><br>
+20. ....  shall / will ....before/after...v<sub>1</sub>/have,has+V<sub>3</sub><br>
+21.before /after/without+verbing/Nown<br>
+23. a......  too.... to +V<sub>1</sub> [একই subject এর ক্ষ‌েত্র‌ে]<br>
+b.too.... to+for+ object to +V<sub>1 </sub>[ subject এর ক্ষ‌েত্র‌ে]<br>
+24......so.. that + s + cannot / could not+V<sub>1</sub><br>
+25........so that + sub+ can/could + V<sub>1</sub><br>
+26....Noun+reletive+V<sub>1</sub>/V<sub>2</sub>.....<br>
+
+
+
+
+ 
+ </div>
+
+       <div class="slide fade">
+1.You should-----------.<br>
+2.Without working hard----------.<br>
+3.It is I who-------------.<br>
+4.If you worked hard,--------<br>
+5.Unless you read attentively,--------<br>
+6.I wish-----------.<br>
+7.Walk first lest-----------.<br>
+8.Read attentively so that--------<br>
+9.The man is too old----------<br>
+10.The man is so old---------<br>
+11.There goes a proverb that-------------.<br>
+12.Those who work hard----------------<br>
+13.Had I been a rich man,---------------.<br>
+14.Were I a bird,-------------------.<br>
+15.Had I a car,---------------.<br>
+16.Unless you work hard,-------<br>
+17.Work hard or---------------<br>
+18.No sooner had I seen him---------<br>
+19.While------------,I saw a snake.<br>
+20.The load is too heavy--------<br>
+21.In case your help,------------<br>
+22.Though he worked hard,----------<br>
+23.We should bear in mind------<br>
+24.Sonargoan is a place------<br>
+25.Inspite of his illness-----<br>
+26.As soon as I saw him,-------<br>
+27.He cannot buy a shirt let alone-----<br>
+28.Would that---------<br>
+29.He could not attend the class as-----------<br>
+30.He could not attend the class because of--------<br>
+31.They came here with a view to------------<br>
+32.I went to Sonargoan where----------<br>
+33.He said that----------------------<br>
+34.The sooner we get up----------- <br>
+35. It is not good-----------.<br>
+36.He took biology in lieu of---------<br>
+37.You had better-------------<br>
+38.While I---------------,I saw a sanake.<br>
+39.Wait here until--------.<br>
+40.The man who_____________.<br>
+       </div>
+
+<div class="slide fade">
+<font color="red"> The rules of the right forms of verb:</font><br>
+  <br>Main rule:একটি clause একাধিক verb থাকলে  একটি মাত্র verb হবে finite(v<sub
+>1</sub>/v<sub>2</sub>) ও অন্যান্য verb গুলো হবে  nonfinite (verbing/to+v<sub>1</sub>/v<sub>
+3</sub>)। Nonfinite verb active এর ক্ষেত্রে হবে  ing বা to+v<sub>1</sub>। এক্ষেত্রে উদ্দেশ্য বা চাওয়া বোঝতে  to+v<sub>1</sub> হবে। Nonfinite verb passive এর ক্ষেত্রে হবে past participle form।<br><br>
+1.to এর পর verb এর মূল form.<br><br>
+2.do,does, did এর পর verb এর মূল form. <br><br>
+3.may, might, can, could, shall,should,
+ will, would, must, let, (need, dare) 
+ ought to, used to cannot but,could not but এর পর verb এর মূল form.<br><br>
+ 4.With a view to, look forward to,
+  get used to,be used to, object to, addicted to
+  accustomed to এর পর verb এর সাথে ing যুক্ত হয়। <br><br>
+  5.past, mind, worth, worthy of, cannot help,
+   could not help, It is not good, There is no use 
+   use এর পর verb এর সাথে ing যুক্ত হয়।  <br><br>
+   6.start,enjoy এর পর verb এর সাথে ing যুক্ত হয়।<br><br>
+   7.preposition, possessive এর পর verb এর সাথে ing যুক্ত হয়। <br><br>
+   8. to be, having, being, have, has, had,
+    get, got এর পর verb এর past participle form হয়।<br><br>
+     
+  9.Yesterday, ago, long ago, long since 
+   last night, last.... time, in 1971,
+   once এর পর  verb এর  past form হয়। <br><br>
+ 10.and, but, or, not only....but also দ্বারা একই
+ parts of speech, phrases, clauses যুক্ত হয়। <br><br>
+ 11. be verb এর পর verb থাকলে active এর ক্ষেত্রে ing ও passive এর ক্ষেত্রে  past participle form হবে। <br><br>
+ can be, could be, should be, would be, may be, might be, must be এর পর  verb এর সাধারণত passive হয় অর্থাৎ verb 
+  এর past participle form হয়। <br><br>
+ 12.tomorrow, next day, next month, in 2030 ইত্যাদি ভবিষ্যৎ নির্দেশক শব্দ থাকলে তা future indefinite tense হয়।<br><br>
+ 13. কোন সময়ের উল্লেখ না করে কোন sentence এ sometimes,  always,  often,occasionally,  regularly, daily, normally. 
+ on Friday's, once a week, everyday, every...time থাকলে ও কোন কিছুর স্বাভাবিক ধর্ম,
+ অভ্যাসগত কর্ম,  চিরন্তন সত্য, ঐতিহাসিক সত্য বোঝাতে  
+  present indefinite tense হয়। <br><br>
+ 14.preposition, participle phrase, clause দ্বারা যুক্ত subject গুলোর ক্ষেত্রে  ১ম subject অনুযায়ী verb ও possessive হয়।<br><br>
+ 15.just,just now, already, recently, lately{yet, ever(question ও negative এর ক্ষেত্রে ) } কোন sentence এ থাকলে সাধারণত তা present perfect tense হয়।<br><br>
+ 16.at present,at this moment, at this time, at now, day by day দ্বারা বর্তমানে কোন কাজ চলিতেছে বোঝাতে present continuous tense হয়।<br><br>
+ 17.people, cattle, folk,gentry, vermin, aristocracy, nobility, 
+  majority, police, public  এগুলো  দেখতে singular হলেও verb ও possessive plural হয়।<br><br>
+ 18.adjective এর পূর্বে the বসলে তা plural common noun হয়ে যায় এবং এর verb ও possessive plural হয়। <br><br>
+ 19.Everybody, Everyone, Everything, Every, Every....., 
+  Nobody, No one, None, Nothing, No.....,
+  Anybody, Anyone, Anything, Any, Any....,
+  Somebody,Someone, Something,
+  Each,Each....., Either, Neither  কোন sentence  এর subject হলে verb ও possessive singular হয়।. <br><br>
+  20.Present Indefinite Tense এর subject third person singular number এর হলে 
+   verb এর সাথে s বা es যোগ হয়। <br><br>
+21.Uncountable noun ও calculation   কোন sentence এর subject হলে verb সবময় singular হয়। <br><br>
+22.Infinitive(to+V<sub>1</sub>), Gerund(verbing), verbal noun(The+verbing+of) কোন sentence এর subject হলে
+ verb ও possessive singular হয়।. <br><br>
+ 23. causative verb এর ক্ষেত্রে make, help let + object এর পর  verb এর মূল  form হয় . <br><br>
+ 24. and দ্বারা যুক্ত subject গুলো দ্বারা একই ব্যক্তি বা বস্তু বোঝাতে  verb ও possessive  singular হয় এবং ভিন্ন ব্যক্তি বা বস্তু বোঝাতে verb ও possessive plural হয়। <br><br>
+ 25.Each, Every যুক্ত  subject গুলো and  দ্বারা যুক্ত হয়ে ভিন্ন ব্যক্তি বা বস্তু বোঝানো সত্ত্বেও verb singular হয়। <br><br>
+</p>
+26.......lest+subject+should/ might+verb এর মূল form হয়। <br><br>
+ 27.It is high time, It is now time, It is time,It is....time,
+   wish, fancy, as if, as though এর পর  be verb থাকলে were হয় তবে অন্য কোন verb থাকলে তার  past form হয়। <br><br>
+28. as if(যেন), as though(যেন), since(হইতে) যুক্ত বাক্যে ১ম clause টি present indefinite বা present perfect tense হলে অপর  clause টি  past indefinite tense হয়। <br><br>
+ 29. as if(যেন), as though(যেন), since(হইতে) যুক্ত বাক্যে ১ম clause টি  plast indefinite হলে অপর clause টি  past perfect tense হয়। <br><br>
+ 30. If যুক্ত  clause টি present indefinite বা present perfect tense হলে অপর clause টি  future indefinite tense হয় তবে এক্ষেত্রে shall বা will এর পরিবর্তে can বা may ব্যবহৃত হতে পারে।  <br><br>
+ 31.If যুক্ত  clause টি past indefinite tense হলে অপর  clause টি past conditional(would/could /might+v<sub>1</sub>) হয়।<br><br>
+ 32.If + subject +were clause দ্বারা কোন sentence শুরু হলে অপর clause টি past conditional(would/could /might+v<sub>1</sub>) হয়।<br><br>
+ 33.If যুক্ত clause টি past perfect tense হলে clause টি past perfect conditional(would have/could  have/might have+v<sub>3</sub>) হয়।<br><br>
+ 34.Had+sub+v<sub>3</sub> দ্বারা কোন clause শুরু clause টি past perfect conditional(would have/could  have/might have+v<sub>3</sub>) হয়।<br><br>
+ 35.Would that দ্বারা কোন clause শুরু হলে অপর clause টি past conditional(would /could /might +v<sub>1</sub>) হয়।<br><br>
+36.Would that দ্বারা কোন sentence শুরু হলে  এর পর subject + could verb এর মূল form বসে। <br><br>
+37.While এরপর সরাসরি verb থাকলে তার সাথে ing যুক্ত হয়। <br><br>
+38.While এরপর subject থাকলে তা সাধারণত continuous tense হয়।<br><br>
+39.No sooner had+subject+V<sub>3</sub>.....than+subject +v<sub>2</sub>
+ Hardly had+subject+V<sub>3</sub>.....when/before+subject +v<sub>2</sub>
+ Scarcely  had+subject+V<sub>3</sub>.....when+subject +v<sub>2</sub><br>
+40. No sooner did+subject+V<sub>1</sub>.....than+subject +v<sub>2</sub>
+  Hardly did+subject+V<sub>1</sub>.....when/before+subject +v<sub>2</sub>
+ Scarcely  did+subject+V<sub>1</sub>.....when+subject +v<sub>2</sub><br><br>
+41..No sooner do/does+subject+V<sub>1</sub>.....than+subject +v<sub>1</sub>
+Hardly do/does+subject+V<sub>2</sub>.....when/before+subject +v<sub>1</sub><br><br>
+Scarcely do/does+subject +V<sub>1</sub>.....when +subject +v<sub>1</sub><br><br>
+42.One of the/Each of the/Either of the/ Neither of the/Any of the/None of the/Every of the/Each of the +Noun /pronoun plural এবং verb ও possessive singularহয়।<br><br>
+43.The number of+Noun pronoun plural কিন্তু verb ও possessive singular হয়।<br><br>
+44.A number of +Noun/pronoun, verb ও possessive plural হয়।<br><br>
+45.Many +Noun/pronoun, verb ও possessive plural হয়।  <br><br>
+46.Many a +Noun/pronoun, verb ও possessive singular হয়। <br><br>
+47.Principal clause টি past হলে subordinate clause টি corresponding past হয়। <br>
+48. দুটি অতীত ঘটনা before ও after দ্বারা যুক্ত থাকলে before এর পূর্বে ও after এর পরের clause টি  past perfect tenseহয় এবং অপর clause দ্বয় past indefinite tense হয়। <br><br>
+49.Principal clause টি future হলে subordinate clause টি  future  indefinite না হয়ে  present indefinite বা  present perfect tenseহয়। <br><br>
+50.Relative pronoun এর  verb এর antecedent অনুযায়ী হয়।<br><br>
+51. Introductory 'Here' There sentence subject verb
+ 
+  </div>
+
+<div class="slide fade">
+1.Once there____(live) an idle king.<br>
+2.He---(not undergo) any physical labour.<br>
+3.He---(got) bulky and could not move from place to another place<br>
+4.He did not------(prescribe) any medicine.<br>
+5.The King started------(follow) the prescription.<br>
+6.He-------(relieve) of his problem.<br>
+7.The criminal should--------(punish).<br>
+8.A student______(wish) to go abroad must___(learn) English.<br>
+9.Air_____(be) an important element of the environment.<br>
+10.Air is constantly being_______(pollute) in many ways.<br>
+11.________(learn) right form of verbs_____(be) very important.<br>
+12.He could not help______(do) it.<br>
+13.Everybody_______(respect) an honest man.<br>
+14.The poor_____(suffer) a lot.<br>
+15.Recently he______(visit) the place.<br>
+16.A teacher____(play) an important role in
+_____(build)up an educated nation. <br>
+17.English _____(learn) to____(communicate) with
+the foreignets.<br>
+18.Parents ___(start)______(think) of___(nurse) and_______(bring)
+up their children when a child______(bear).<br>
+19.Hena somtimes_____(come) here.<br>
+20.Population problem ______(increase) day by day.<br>
+21.I hoped that I _______(be) a doctor.<br>
+22.Football______(arrange) between the two top teams
+was very exciting. <br>
+23.You cannot but______(deny) it.<br>
+24 I cannot help_____(help) you.<br>
+25.He used to________(smoke).<br>
+26.He was used to_______(smoke)<br>
+27.English is as if it ______(be) a language _____(mean)
+for particular class of people.<br>
+28.Had the students_____(be) eager to learn
+English,The_______((learn) it easily.<br>
+29.The boy with his friends _____(be) absent today.<br>
+30.The number of students in Bangladesh ____(fail)
+in English every year. </font>
+  </div>
+
+<div class="slide fade">
+1.Verb+হয়=am,is,are+V<sub>3</sub><br>
+2.Verb+হয়েছিল=was,were+V<sub>3</sub><br>
+3.Verb+ছিল,ছিলাম,ল,লাম,লেন=V<sub>2</sub><br>
+4.Verb+হয়েছে=have been,has been +V<sub>4</sub><br>
+5.Verb+হবে=shall be,will be+V<sub>3</sub><br>
+ <h1>The structures of sentence:</h1>1.Noun+Relative clause+principal clause.<br>
+2.Subject +verb+Object+Relative clause.<br>
+3.Subject + verb+ that clause.<br>
+4..That clause+ verb<br>
+5.It is high time +sub+ verb<br>
+6.There+verb+ sub.....<br>
+7.Sub+be+adjective+to + v<sub>1</sub>.....<br>
+8.Sub+be+adjective+ + v<sub>3</sub>..<br>
+9.Verbing+object+main verb..<br>
+10.Sub+be+v<sub>3</sub>+that+sub+verb...<br>
+11.Sub+be+v<sub>3</sub>+to+be+adjective...<br>
+13.Sub+be+comparative degree +than........<br>
+14.Sub+be+superlative  degree..... <br>
+15.It+be+time+when+sub+verb...<br>
+ 
+  </div>
+
+<div class="slide fade">
+4.His honesty is known_____to all.<br>
+5.He suffers______hunger.<br>
+6.He is deprived_____comfort.<br>
+7.He does not long___wealth.<br>
+8.He never hankers______money.<br>
+9.He leads his life____by honest means.<br>
+10.He is satisfied ____with what he has.<br>
+11.He does not like to depend_____others.<br>
+12.Poverty is responsible ___his duty.<br>
+13.Patriotism is the quality inherent ___a
+man.<br>
+14.The people are noted____their patriotism. <br>
+15.Their contribution does not sink___oblivion.<br>
+16.They are worthy ___ paraise.<br>
+17.They are not unaware____of their status.<br>
+18.They should not be looked____in any way.<br>
+19.A good student is always attentive ___ to his study.<br>
+29.He is never indifferent ___his study.<br>
+41.Nobody care______for its repair.<br>
+42.Happiness consists____honesty.<br>
+43.He died_______in the war.<br>
+44.Our family consists______five members.<br>
+45.The Olympic games were named______the town of Olympia_______Greece. <br>
+46.Greece was divided _____ many cities. <br>
+47.The were involved _______fighting with one another. <br>
+48.Patriotism is the quality inherent ___man. <br>
+49.He feels the natural attachment____his native land.<br>
+50.He hit___a plan.<br>
+51.They lay_____their lives __the good of the Country. <br>
+52.They are celebrated all_____the world.<br>
+53.A pious man is  not addicted ____any evil. <br>
+54.Rather he is devoted____good  deeds.<br>
+55.He is not harmful______ anyone. <br>
+56.He leads his life according _____his religious  believes. <br>
+57.He values religion ____everything. <br>
+58.He is conscious _____his duties.<br>
+59.There is no remedy______ the diseases.<br>
+60.They stick _____this bad habits.<br>
+61.Smoking is injurious ____a passive  smoker.<br>
+62 An honest man true__his word.<br>
+64.He does not deveiate_____the truth.<br>
+65.He does not fall victim ____greed.<br>
+66 An honest man abstains himself____corruption. <br>
+67.They add beauty ____our life.
+68.A teacher dispels the darkness ___ignorance___the lot of a nation.<br>
+68.He does not sit motionless ______his class.<br>
+69.Our county is beset_____many problems.<br>
+70.Many parents are compelled ___give dowry and marry____their daughter.<br>
+71.He adheres____good deeds.<br>
+72.The Headmaster presided_____the meeting.<br>
+73.He has aversion ____work.<br>
+74.He was _____difficulties. <br>
+75.He was affectionate___me.<br>
+76.He was absorbed _____ studies. <br>
+77.He was afraid_____doing it.<br>
+78.He prides himself____his success.<br>>
+79.He takes pride______his success <br>
+80.He is proud______his success <br>
+81.Smoking results____cancer.<br>
+82 Cancer results ______smoking. <br>
+83.He burst____tears <br>
+83.The pond is full___water. <br>
+84 The pondis filled____water.<br>
+85.He was junior____me.<br>
+86.Our country  is rich _____natural resources. <br>
+87 He was sanguine _____achieving success  <br>
+88.You have to carry____your task.<br>
+89.The girl was married_____an old nan.<br>
+90.We went to a picnic ____winter. <br>
+  </div>
+
+<div class="slide fade">
+gap1
+<p>
+ gap2
+  </p>
+ </div>
+
+<div class="slide fade">
+gap3
+  </div>
+
+<div class="slide fade">
+
+ gap4
+  </div>
+
+<div class="slide fade">
+gap5
+  </div>
+
+<div class="slide fade">
+gap6
+  </div>
+
+
+
+<div class="slide fade">
+  <p>gap7</p> † <p>gap8</p>
+  </div>
+
+  </div>
+
+  </div>
+
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+<div class="footer">
+
+<div>
+  <span class="dot" onclick="currentSlide(1)"></span> 
+  <span class="dot" onclick="currentSlide(2)"></span> 
+  <span class="dot" onclick="currentSlide(3)"></span>
+   <span class="dot" onclick="currentSlide(4)"></span>
+   <span class="dot" onclick="currentSlide(5)"></span> 
+  <span class="dot" onclick="currentSlide(6)"></span> 
+  <span class="dotlarge" onclick="currentSlide(7)"></span>
+   <span class="dot" onclick="currentSlide(8)"></span>
+<span class="dot" onclick="currentSlide(9)"></span> 
+  <span class="dot" onclick="currentSlide(10)"></span> 
+  <span class="dot" onclick="currentSlide(11)"></span>
+   <span class="dot" onclick="currentSlide(12)"></span>
+   <span class="dot" onclick="currentSlide(13)"></span> 
+  <span class="dot" onclick="currentSlide(14)"></span> 
+  <span class="dot" onclick="currentSlide(15)"></span>
+   <span class="dot" onclick="currentSlide(16)"></span>
+<span class="dot" onclick="currentSlide(17)"></span> 
+  <span class="dot" onclick="currentSlide(18)"></span> 
+  <span class="dot" onclick="currentSlide(19)"></span>
+   <span class="dot" onclick="currentSlide(20)"></span>
+   <span class="dot" onclick="currentSlide(21)"></span> 
+  <span class="dot" onclick="currentSlide(22)"></span> 
+  <span class="dot" onclick="currentSlide(23)"></span>
+   <span class="dot" onclick="currentSlide(24)"></span>
+  <span class="dot" onclick="currentSlide(25)"></span> 
+  <span class="dot" onclick="currentSlide(26)"></span> 
+  <span class="dot" onclick="currentSlide(27)"></span>
+   <span class="dot" onclick="currentSlide(28)"></span>
+   <span class="dot" onclick="currentSlide(29)"></span> 
+  <span class="dot" onclick="currentSlide(30)"></span> 
+  <span class="dot" onclick="currentSlide(31)"></span>
+   <span class="dot" onclick="currentSlide(32)"></span>
+<span class="dot" onclick="currentSlide(33)"></span> 
+  <span class="dot" onclick="currentSlide(34)"></span> 
+  <span class="dot" onclick="currentSlide(35)"></span>
+   <span class="dot" onclick="currentSlide(36)"></span>
+   <span class="dot" onclick="currentSlide(37)"></span> 
+  <span class="dot" onclick="currentSlide(38)"></span> 
+  <span class="dot" onclick="currentSlide(39)"></span>
+   <span class="dot" onclick="currentSlide(40)"></span>
+<span class="dot" onclick="currentSlide(41)"></span> 
+  <span class="dot" onclick="currentSlide(42)"></span> 
+  <span class="dot" onclick="currentSlide(43)"></span>
+   <span class="dot" onclick="currentSlide(44)"></span>
+   <span class="dot" onclick="currentSlide(45)"></span> 
+  <span class="dot" onclick="currentSlide(46)"></span> 
+  <span class="dot" onclick="currentSlide(47)"></span>
+   <span class="dot" onclick="currentSlide(48)"></span>
+  <span class="dot" onclick="currentSlide(49)"></span> 
+  <span class="dot" onclick="currentSlide(50)"></span> 
+  <span class="dot" onclick="currentSlide(51)"></span>
+   <span class="dot" onclick="currentSlide(52)"></span>
+   <span class="dot" onclick="currentSlide(53)"></span> 
+  <span class="dot" onclick="currentSlide(54)"></span> 
+  <span class="dot" onclick="currentSlide(55)"></span>
+   <span class="dot" onclick="currentSlide(56)"></span>
+<span class="dot" onclick="currentSlide(57)"></span> 
+  <span class="dot" onclick="currentSlide(58)"></span> 
+  <span class="dot" onclick="currentSlide(59)"></span>
+</div>
+  </div>
+
+
+</container>
+
+
+<script>
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("slide");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+</script>
+  </body>
+  </html>
