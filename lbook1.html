@@ -3,12 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Folio Slideshow by TemplateMo CSS Templates</title>
+<title> Literature </title>
 </head>
-<!--
-  Folio Slideshow
-  https://templatemo.com/tm-625-folio-slideshow
--->
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -698,7 +694,7 @@ The Waste Land by T. S. Eliot, Ulysses by James Joyce, Mrs Dalloway by Virginia 
 <button id="next" aria-label="Next slide">&rarr;</button>
 </div>
 
-<script>
+  <script>
 (function(){
 var slides=document.querySelectorAll('.slide');
 var currEl=document.getElementById('curr');
@@ -749,90 +745,6 @@ function go(t){
   var old=slides[idx],next=slides[t];
   old.classList.add('exiting');
   old.classList.remove('active');
-  setTimeout(function(){
-    next.classList.add('active');
-    next.scrollTop=0;
-    old.classList.remove('exiting');
-    idx=t;
-    var n=String(idx+1).padStart(2,'0');
-    currEl.textContent=n;
-    menuCurrEl.textContent=n;
-    sectionEl.textContent=next.dataset.section;
-    refreshMenuActive();
-    setTimeout(function(){isAnimating=false},900);
-  },350);
-}
-
-function openMenu(){menuOpen=true;menuOverlay.classList.add('open');menuPanel.classList.add('open');menuBtn.classList.add('open')}
-function closeMenu(){menuOpen=false;menuOverlay.classList.remove('open');menuPanel.classList.remove('open');menuBtn.classList.remove('open')}
-function toggleMenu(){menuOpen?closeMenu():openMenu()}
-
-prevBtn.addEventListener('click',function(){go(idx-1)});
-nextBtn.addEventListener('click',function(){go(idx+1)});
-menuBtn.addEventListener('click',toggleMenu);
-menuOverlay.addEventListener('click',closeMenu);
-
-/* Delegated handler for data-goto links */
-document.addEventListener('click',function(e){
-  var el=e.target.closest('[data-goto]');
-  if(!el)return;
-  e.preventDefault();
-  var n=parseInt(el.dataset.goto,10);
-  if(!isNaN(n)&&n>=1&&n<=slides.length)go(n-1);
-});
-
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'&&menuOpen){closeMenu();return}
-  if(menuOpen)return;
-  if(e.key==='ArrowRight')go(idx+1);
-  if(e.key==='ArrowLeft')go(idx-1);
-  if(e.key===' '){e.preventDefault();go(idx+1)}
-  if(e.key==='m'||e.key==='M')toggleMenu();
-  if(/^[1-9]$/.test(e.key))go(parseInt(e.key,10)-1);
-});
-
-/* Touch swipe */
-var tx=0,ty=0,scrolling=false;
-document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;scrolling=false},{passive:true});
-document.addEventListener('touchmove',function(e){
-  var dx=Math.abs(e.touches[0].clientX-tx);
-  var dy=Math.abs(e.touches[0].clientY-ty);
-  if(dy>dx)scrolling=true;
-},{passive:true});
-document.addEventListener('touchend',function(e){
-  if(scrolling||menuOpen)return;
-  var dx=e.changedTouches[0].clientX-tx;
-  var dy=Math.abs(e.changedTouches[0].clientY-ty);
-  if(Math.abs(dx)>60&&dy<40)dx<0?go(idx+1):go(idx-1);
-},{passive:true});
-})();
-</script>
-</body>
-</html>
-ript>
-</body>
-</html>
-ript>
-</body>
-</html>
-
-.touches[0].clientX;ty=e.touches[0].clientY;scrolling=false},{passive:true});
-document.addEventListener('touchmove',function(e){
-  var dx=Math.abs(e.touches[0].clientX-tx);
-  var dy=Math.abs(e.touches[0].clientY-ty);
-  if(dy>dx)scrolling=true;
-},{passive:true});
-document.addEventListener('touchend',function(e){
-  if(scrolling||menuOpen)return;
-  var dx=e.changedTouches[0].clientX-tx;
-  var dy=Math.abs(e.changedTouches[0].clientY-ty);
-  if(Math.abs(dx)>60&&dy<40)dx<0?go(idx+1):go(idx-1);
-},{passive:true});
-})();
-</script>
-</body>
-</html>
-st.remove('active');
   setTimeout(function(){
     next.classList.add('active');
     next.scrollTop=0;
