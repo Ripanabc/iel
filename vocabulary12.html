@@ -1,0 +1,5277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Literature </title>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ee:cubic-bezier(0.19,1,0.22,1);
+  --eq:cubic-bezier(0.77,0,0.175,1);
+  --es:cubic-bezier(0.34,1.56,0.64,1);
+
+  /* Powder Plum + Coral palette */
+  --paper:#FAF8FC;
+  --surface:#E8E3F0;
+  --surface-2:#F0EBF7;
+  --mute:#9B7BA8;
+  --mute-soft:#C4B0CE;
+  --ink:#2D1F3A;
+  --ink-2:#5A4A66;
+  --accent:#FF6B47;
+  --accent-soft:#FFB59E;
+  --line:rgba(45,31,58,.12);
+  --line-2:rgba(45,31,58,.06);
+
+  --font-serif:'Fraunces',Georgia,serif;
+  --font-sans:'Inter Tight','Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono','Courier New',monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;width:100%;background:var(--paper);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+
+/* Subtle paper-grain background — gives a warm "printed" feel */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 25% 30%,rgba(155,123,168,.06) 0%,transparent 40%),radial-gradient(circle at 75% 70%,rgba(255,107,71,.04) 0%,transparent 50%);opacity:.9}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(45,31,58,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,31,58,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at center,black 20%,transparent 80%)}
+
+.deck{position:fixed;inset:0;overflow:hidden;z-index:1}
+
+/* Slides — editorial paper-turn transition */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .9s var(--eq),visibility .9s,transform .9s var(--eq);z-index:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;transform:translateX(40px)}
+.slide.active{opacity:1;visibility:visible;transform:translateX(0);transition-delay:.4s}
+.slide.exiting{transition-delay:0s;transform:translateX(-30px)}
+
+.slide-inner{min-height:100%;padding:90px 6vmin 80px;display:flex;flex-direction:column;position:relative}
+
+/* === Persistent chrome === */
+.brand{position:fixed;top:32px;left:36px;z-index:100;display:flex;align-items:baseline;gap:10px;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:22px;letter-spacing:-.01em;color:var(--ink)}
+.brand .mark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);transform:translateY(-2px)}
+.brand .sub{font-family:var(--font-mono);font-style:normal;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);font-weight:500}
+
+.nav{position:fixed;top:28px;right:28px;display:flex;gap:5px;align-items:center;z-index:100;font-family:var(--font-mono)}
+.nav button{background:var(--paper);border:1px solid var(--line);color:var(--ink);cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:0;font-family:inherit;font-size:13px;font-weight:500;transition:all .25s var(--ee)}
+.nav button:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.counter{font-size:11px;letter-spacing:.18em;padding:0 14px;color:var(--ink);min-width:62px;text-align:center;background:var(--paper);border:1px solid var(--line);height:36px;display:flex;align-items:center;justify-content:center}
+.counter strong{font-weight:500;color:var(--accent)}
+
+.section-tag{position:fixed;bottom:32px;left:36px;z-index:100;font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);display:flex;gap:10px;align-items:center;pointer-events:none}
+.section-tag .pip{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+
+.tm-credit{position:fixed;bottom:32px;right:36px;z-index:100;font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);text-decoration:none;display:flex;gap:8px;align-items:center;transition:color .25s}
+.tm-credit:hover{color:var(--ink)}
+.tm-credit .tm-dot{width:5px;height:5px;border-radius:50%;background:var(--mute)}
+
+/* === Popup menu — editorial restyle === */
+.menu-btn .icon{display:flex;flex-direction:column;gap:3px;align-items:center}
+.menu-btn .icon i{display:block;width:14px;height:1.5px;background:currentColor;transition:all .3s var(--ee)}
+.menu-btn.open .icon i:nth-child(1){transform:translateY(4.5px) rotate(45deg)}
+.menu-btn.open .icon i:nth-child(2){opacity:0}
+.menu-btn.open .icon i:nth-child(3){transform:translateY(-4.5px) rotate(-45deg)}
+
+.menu-overlay{position:fixed;inset:0;background:rgba(45,31,58,.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:200;opacity:0;visibility:hidden;transition:opacity .35s var(--ee),visibility .35s}
+.menu-overlay.open{opacity:1;visibility:visible}
+.menu-panel{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(.97);width:min(580px,92vw);max-height:84vh;overflow-y:auto;overflow-x:hidden;background:var(--paper);border:1px solid var(--line);z-index:201;opacity:0;visibility:hidden;transition:opacity .4s var(--ee),visibility .4s,transform .5s var(--es);box-shadow:0 30px 80px rgba(45,31,58,.18);scrollbar-width:thin;scrollbar-color:var(--mute-soft) transparent}
+.menu-panel.open{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.menu-panel::-webkit-scrollbar{width:8px}
+.menu-panel::-webkit-scrollbar-track{background:transparent;margin:18px 0}
+.menu-panel::-webkit-scrollbar-thumb{background:var(--mute-soft);border-radius:0;border:2px solid transparent;background-clip:padding-box}
+.menu-panel::-webkit-scrollbar-thumb:hover{background:var(--accent);background-clip:padding-box}
+.menu-header{padding:28px 32px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
+.menu-header h3{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:24px;letter-spacing:-.01em}
+.menu-header .menu-meta{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.menu-list{padding:8px 0;display:flex;flex-direction:column}
+.menu-item{display:flex;align-items:baseline;gap:18px;padding:14px 32px;cursor:pointer;transition:all .2s var(--ee);border-bottom:1px solid var(--line-2)}
+.menu-item:last-child{border-bottom:none}
+.menu-item:hover{background:var(--surface-2);padding-left:38px}
+.menu-item.current{background:var(--surface)}
+.menu-item.current::before{content:'';position:absolute;left:0;width:4px;height:30px;background:var(--accent);align-self:center}
+.menu-item{position:relative}
+.menu-item .mi-num{font-family:var(--font-mono);font-size:11px;color:var(--mute);letter-spacing:.18em;width:28px;flex-shrink:0;font-weight:500}
+.menu-item.current .mi-num{color:var(--accent)}
+.menu-item .mi-label{font-family:var(--font-serif);font-weight:400;font-size:18px;letter-spacing:-.005em;flex:1;color:var(--ink)}
+.menu-item .mi-sub{font-family:var(--font-sans);font-size:12px;color:var(--mute);margin-top:2px;letter-spacing:.01em}
+.menu-item .mi-arr{color:var(--mute-soft);font-size:14px;transition:all .25s;font-family:var(--font-sans)}
+.menu-item:hover .mi-arr{color:var(--accent);transform:translateX(4px)}
+.menu-footer{padding:18px 32px 22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.menu-footer kbd{background:var(--surface);border:1px solid var(--line);padding:3px 8px;font-family:var(--font-mono);font-size:9.5px;color:var(--ink);margin:0 4px;font-weight:500}
+
+/* === Reveal utilities === */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ee),transform 1s var(--ee)}
+.slide.active .reveal{opacity:1;transform:translateY(0)}
+.slide.active .reveal:nth-of-type(1){transition-delay:.55s}
+.slide.active .reveal:nth-of-type(2){transition-delay:.7s}
+.slide.active .reveal:nth-of-type(3){transition-delay:.85s}
+.slide.active .reveal:nth-of-type(4){transition-delay:1s}
+.slide.active .reveal:nth-of-type(5){transition-delay:1.15s}
+.slide.active .reveal:nth-of-type(6){transition-delay:1.3s}
+.slide.active .reveal:nth-of-type(7){transition-delay:1.45s}
+
+.mw{display:inline-block;overflow:hidden;vertical-align:bottom}
+.mw>span{display:inline-block;transform:translateY(110%);transition:transform 1.3s var(--ee)}
+.slide.active .mw>span{transform:translateY(0)}
+
+/* === Shared elements === */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute);font-weight:500}
+.eyebrow::before{content:'';width:32px;height:1px;background:var(--accent)}
+
+.h-display{font-family:var(--font-serif);font-weight:300;line-height:.98;letter-spacing:-.025em;color:var(--ink)}
+.h-display em{font-style:italic;font-weight:300;color:var(--accent)}
+.h-display .ornament{font-family:var(--font-serif);font-style:italic;font-weight:300;color:var(--mute)}
+
+.body-lg{font-family:var(--font-serif);font-weight:300;font-size:clamp(16px,1.4vw,20px);line-height:1.55;color:var(--ink-2)}
+.body-md{font-family:var(--font-sans);font-size:14px;line-height:1.65;color:var(--ink-2)}
+.body-sm{font-family:var(--font-sans);font-size:12px;line-height:1.5;color:var(--mute)}
+
+.btn-primary{background:var(--ink);color:var(--paper);padding:14px 26px;font-family:var(--font-sans);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;cursor:pointer;transition:all .3s var(--ee);border:1px solid var(--ink);text-decoration:none}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn-secondary{background:transparent;color:var(--ink);padding:14px 26px;font-family:var(--font-sans);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;cursor:pointer;transition:all .3s var(--ee);border:1px solid var(--ink);text-decoration:none}
+.btn-secondary:hover{background:var(--ink);color:var(--paper)}
+
+.hairline-top{border-top:1px solid var(--ink)}
+.hairline-bot{border-bottom:1px solid var(--ink)}
+
+/* ====== SLIDE 1 — COVER ====== */
+.s-cover{align-items:stretch;justify-content:stretch;padding:80px 6vmin 70px;display:grid;grid-template-rows:auto 1fr auto;gap:3.5vmin}
+.s-cover-top{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute)}
+.s-cover-top .tl,.s-cover-top .tr{display:flex;flex-direction:column;gap:8px}
+.s-cover-top .tr{text-align:right;align-items:flex-end}
+.s-cover-top strong{color:var(--ink);font-weight:500;font-size:14px;letter-spacing:.18em}
+.s-cover-center{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:22px;position:relative}
+.s-cover-decor{position:absolute;top:50%;right:-2vmin;transform:translateY(-50%);width:160px;height:160px;border-radius:50%;border:1px solid var(--accent);opacity:0;transition:opacity 1.4s var(--ee) .8s,transform 1.4s var(--ee) .8s}
+.slide.active .s-cover-decor{opacity:.4;transform:translateY(-50%) scale(1)}
+.s-cover-decor::before{content:'';position:absolute;inset:20px;border:1px solid var(--mute);border-radius:50%;opacity:.6}
+.s-cover-decor::after{content:'\2731';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-serif);font-size:48px;color:var(--accent);font-style:italic;font-weight:300}
+.s-cover h1{font-size:clamp(52px,8.5vw,128px);max-width:13ch;position:relative;z-index:1;line-height:.96}
+.s-cover h1 em{font-family:var(--font-serif);font-style:italic;color:var(--accent)}
+.s-cover-tagline{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(16px,1.6vw,22px);color:var(--mute);max-width:480px;line-height:1.4}
+.s-cover-bot{display:grid;grid-template-columns:repeat(4,1fr);gap:5vmin;align-items:end;padding-top:18px;border-top:1px solid var(--ink)}
+.s-cover-bot .item{display:flex;flex-direction:column;gap:5px}
+
+/* Cover start button — sits bottom-right of center area */
+.s-cover-start{position:absolute;right:0;bottom:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px;text-decoration:none;color:var(--ink);cursor:pointer;padding:14px 0 14px 28px;transition:gap .35s var(--ee);z-index:2}
+.s-cover-start:hover{gap:12px}
+.s-cover-start .sb-num{font-family:var(--font-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);font-weight:500}
+.s-cover-start .sb-label{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(20px,1.9vw,28px);line-height:1;color:var(--ink);letter-spacing:-.01em;transition:color .25s}
+.s-cover-start .sb-label em{font-style:italic;color:var(--accent)}
+.s-cover-start:hover .sb-label{color:var(--accent)}
+.s-cover-start .sb-arrow{width:64px;height:14px;color:var(--mute);transition:color .25s,transform .4s var(--ee);overflow:hidden;display:block}
+.s-cover-start .sb-arrow svg{width:100%;height:100%;display:block;transition:transform .5s var(--ee)}
+.s-cover-start:hover .sb-arrow{color:var(--accent)}
+.s-cover-start:hover .sb-arrow svg{transform:translateX(6px)}
+.s-cover-bot .item .lbl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.s-cover-bot .item .val{font-family:var(--font-serif);font-weight:400;font-size:18px;letter-spacing:-.005em;color:var(--ink)}
+.s-cover-bot .item .val em{font-style:italic;color:var(--accent)}
+
+/* ====== SLIDE 2 — FOREWORD ====== */
+.s-foreword{justify-content:center}
+.s-foreword-grid{display:grid;grid-template-columns:1fr 2fr;gap:6vmin;align-items:start}
+.s-foreword-side{display:flex;flex-direction:column;gap:18px;padding-top:8px;position:sticky;top:0}
+.s-foreword-side .marker{font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.s-foreword-side h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(36px,4.5vw,60px);line-height:1;letter-spacing:-.02em}
+.s-foreword-side h2 em{font-style:italic;color:var(--accent)}
+.s-foreword-side .meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mute);text-transform:uppercase;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.s-foreword-body{display:flex;flex-direction:column;gap:32px;padding-top:8px;max-width:640px}
+.fw-lede{font-family:var(--font-serif);font-weight:300;font-size:clamp(17px,1.6vw,22px);line-height:1.55;color:var(--ink);letter-spacing:-.005em}
+.fw-lede em{font-style:italic;color:var(--accent)}
+.fw-lede::first-letter{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:4.5em;line-height:.85;float:left;margin:8px 12px 0 0;color:var(--accent)}
+.fw-hero{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(28px,3.6vw,52px);line-height:1.05;letter-spacing:-.025em;color:var(--ink);padding:24px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);position:relative}
+.fw-hero em{font-style:italic;color:var(--accent);font-weight:300}
+.fw-hero::before{content:'\201C';position:absolute;top:6px;left:-30px;font-family:var(--font-serif);font-style:italic;font-size:48px;color:var(--accent);font-weight:300;line-height:1}
+.fw-close{font-family:var(--font-serif);font-weight:300;font-size:clamp(15px,1.35vw,18px);line-height:1.6;color:var(--ink-2);letter-spacing:-.005em}
+.fw-close em{font-style:italic;color:var(--ink)}
+.fw-sig{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:18px;color:var(--mute);text-align:right;margin-top:8px}
+.fw-sig em{color:var(--accent);font-style:italic}
+
+/* ====== SLIDE 3 — PLATE I (full-bleed image) ====== */
+.s-plate{padding:0;display:block;align-items:stretch}
+.s-plate-frame{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;grid-template-columns:1fr;gap:0}
+.s-plate-top{padding:32px 36px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper);background:transparent;position:relative;z-index:3}
+.s-plate-top.over-light{color:var(--ink)}
+.s-plate-top strong{font-weight:500}
+.s-plate-image{position:relative;overflow:hidden;background:var(--surface)}
+.s-plate-image img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.05);transition:transform 2.4s var(--ee);filter:saturate(.85) contrast(1.04)}
+.slide.active .s-plate-image img{transform:scale(1)}
+.s-plate-image::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(45,31,58,.35) 0%,transparent 30%,transparent 60%,rgba(45,31,58,.55) 100%);pointer-events:none}
+.s-plate-caption{position:absolute;bottom:90px;left:36px;right:36px;display:flex;justify-content:space-between;align-items:flex-end;color:var(--paper);z-index:3;gap:40px}
+.s-plate-caption .ttl{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(36px,5vw,72px);line-height:1;letter-spacing:-.02em;max-width:14ch}
+.s-plate-caption .meta{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;display:flex;flex-direction:column;gap:6px;text-align:right;flex-shrink:0;min-width:160px}
+.s-plate-caption .meta strong{font-weight:500;font-size:13px;letter-spacing:.15em;color:var(--accent-soft)}
+.s-plate-bot{padding:24px 36px;font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper);position:relative;z-index:3;border-top:1px solid rgba(250,248,252,.2);display:flex;justify-content:space-between}
+
+/* ====== SLIDE 4 — INDEX ====== */
+.s-index{justify-content:center}
+.s-index-head{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:24px;border-bottom:1px solid var(--ink);gap:40px;flex-wrap:wrap}
+.s-index-head h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(48px,7vw,100px);line-height:.95;letter-spacing:-.025em;flex:1;min-width:280px}
+.s-index-head h2 em{font-style:italic;color:var(--accent)}
+.s-index-head .meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);text-align:right;display:flex;flex-direction:column;gap:8px}
+.s-index-head .meta strong{color:var(--ink);font-size:14px;letter-spacing:.18em}
+.s-index-list{margin-top:32px;display:flex;flex-direction:column}
+.s-index-row{display:grid;grid-template-columns:60px 1fr 1.2fr 100px;gap:24px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);transition:padding .3s var(--ee),background .3s var(--ee);cursor:pointer}
+.s-index-row:hover{padding-left:14px;background:linear-gradient(90deg,var(--surface-2) 0%,transparent 100%)}
+.s-index-row .num{font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;color:var(--mute);font-weight:500}
+.s-index-row .ttl{font-family:var(--font-serif);font-weight:300;font-size:clamp(20px,2vw,28px);letter-spacing:-.005em;color:var(--ink);line-height:1.15}
+.s-index-row .ttl em{font-style:italic;color:var(--accent)}
+.s-index-row .desc{font-family:var(--font-sans);font-size:13px;color:var(--mute);line-height:1.45}
+.s-index-row .yr{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mute);text-align:right;font-weight:500}
+.s-index-row:hover .ttl{color:var(--accent)}
+
+/* ====== SLIDE 5 — SPREAD (image + prose + pull quote) ====== */
+.s-spread{justify-content:center}
+.s-spread-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vmin;align-items:stretch;flex:1}
+.s-spread-img{position:relative;overflow:hidden;background:var(--surface);min-height:400px}
+.s-spread-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform 2s var(--ee);display:block;filter:saturate(.9)}
+.slide.active .s-spread-img img{transform:scale(1)}
+.s-spread-img .label{position:absolute;top:24px;left:24px;font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper);background:rgba(45,31,58,.7);padding:6px 12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.s-spread-text{display:flex;flex-direction:column;justify-content:center;gap:24px;padding-right:2vmin}
+.s-spread-text h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(34px,4.5vw,60px);line-height:1.02;letter-spacing:-.025em}
+.s-spread-text h2 em{font-style:italic;color:var(--accent)}
+.s-spread-text .lead{font-family:var(--font-serif);font-weight:300;font-size:clamp(15px,1.3vw,18px);line-height:1.65;color:var(--ink-2)}
+.s-spread-text .lead em{font-style:italic;color:var(--ink)}
+.s-pullquote{margin-top:8px;padding:24px 0 24px 28px;border-left:3px solid var(--accent);font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(17px,1.6vw,24px);line-height:1.4;color:var(--ink);position:relative}
+.s-pullquote::before{content:'\201C';position:absolute;top:-8px;left:14px;font-size:48px;color:var(--accent);font-family:var(--font-serif)}
+.s-pullquote .attr{display:block;margin-top:14px;font-family:var(--font-mono);font-style:normal;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);font-weight:500}
+
+/* ====== SLIDE 6 — SELECTED WORKS (3-image grid) ====== */
+.s-works{gap:2.2vmin;justify-content:center}
+.slide-inner.s-works{padding:60px 6vmin 50px}
+.s-works-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--ink)}
+.s-works-head h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(32px,4vw,54px);line-height:1;letter-spacing:-.025em;flex:1;min-width:260px}
+.s-works-head h2 em{font-style:italic;color:var(--accent)}
+.s-works-head .lead{font-family:var(--font-serif);font-weight:300;font-style:italic;font-size:clamp(13px,1.1vw,15px);line-height:1.5;color:var(--mute);max-width:340px}
+.works-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;width:100%}
+.work-card{display:flex;flex-direction:column;gap:10px;cursor:pointer;text-decoration:none;color:inherit}
+.work-card .wc-img{aspect-ratio:4/5;overflow:hidden;position:relative;background:var(--surface)}
+.work-card .wc-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ee);display:block;filter:saturate(.88)}
+.work-card:hover .wc-img img{transform:scale(1.05)}
+.work-card .wc-img::after{content:'';position:absolute;inset:0;background:rgba(45,31,58,0);transition:background .4s}
+.work-card:hover .wc-img::after{background:rgba(45,31,58,.12)}
+.work-card .wc-meta{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.work-card .wc-meta .num{font-weight:500}
+.work-card .wc-title{font-family:var(--font-serif);font-weight:300;font-size:clamp(18px,1.7vw,24px);line-height:1.1;letter-spacing:-.01em;color:var(--ink);transition:color .3s}
+.work-card:hover .wc-title{color:var(--accent)}
+.work-card .wc-title em{font-style:italic;color:var(--accent)}
+.work-card .wc-desc{font-family:var(--font-sans);font-size:12.5px;color:var(--mute);line-height:1.45}
+.work-card .wc-link{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:500;display:inline-flex;align-items:center;gap:8px;border-bottom:1px solid var(--ink);padding-bottom:4px;align-self:flex-start;transition:all .3s}
+.work-card:hover .wc-link{color:var(--accent);border-color:var(--accent);gap:12px}
+
+/* ====== SLIDE 7 — PRESS / RECOGNITION ====== */
+.s-press{justify-content:center;gap:5vmin}
+.s-press-head{max-width:760px}
+.s-press-head h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(40px,5.5vw,76px);line-height:1;letter-spacing:-.025em;margin-top:18px}
+.s-press-head h2 em{font-style:italic;color:var(--accent)}
+.press-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.press-card{padding:28px 32px;border:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;gap:18px;transition:all .4s var(--ee);position:relative}
+.press-card::before{content:'\201C';position:absolute;top:14px;right:24px;font-family:var(--font-serif);font-size:64px;color:var(--accent);opacity:.18;line-height:1;font-style:italic}
+.press-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 14px 30px rgba(45,31,58,.08)}
+.press-card .pc-quote{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(17px,1.5vw,22px);line-height:1.4;letter-spacing:-.005em;color:var(--ink);position:relative;z-index:1}
+.press-card .pc-attr{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.press-card .pc-attr strong{color:var(--ink);font-weight:500;font-size:11px;letter-spacing:.18em}
+.press-card .pc-stars{color:var(--accent);font-size:13px;letter-spacing:2px}
+
+/* ====== SLIDE 8 — MORE FROM TEMPLATEMO ====== */
+.s-more{gap:4vmin;justify-content:center}
+.s-more-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--ink)}
+.s-more-head .sm-l{flex:1;min-width:300px}
+.s-more-head h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(36px,4.6vw,60px);line-height:1;letter-spacing:-.025em;margin-top:14px}
+.s-more-head h2 em{font-style:italic;color:var(--accent)}
+.s-more-head .sm-r{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:15px;color:var(--mute);max-width:340px;line-height:1.55}
+.s-more-head .sm-r a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);transition:opacity .25s}
+.s-more-head .sm-r a:hover{opacity:.7}
+.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.more-card{display:flex;flex-direction:column;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--paper);overflow:hidden;transition:transform .4s var(--ee),border-color .4s var(--ee),box-shadow .4s var(--ee);opacity:0}
+.more-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 14px 30px rgba(45,31,58,.1)}
+@keyframes moreCardIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.slide.active .more-card{animation:moreCardIn 1s var(--ee) forwards}
+.slide.active .more-card:nth-child(1){animation-delay:.6s}
+.slide.active .more-card:nth-child(2){animation-delay:.75s}
+.slide.active .more-card:nth-child(3){animation-delay:.9s}
+.slide.active .more-card:nth-child(4){animation-delay:1.05s}
+.more-card .mc-thumb{aspect-ratio:16/10;overflow:hidden;position:relative;background:var(--surface);border-bottom:1px solid var(--line)}
+.more-card .mc-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .8s var(--ee);display:block;filter:saturate(.9)}
+.more-card:hover .mc-thumb img{transform:scale(1.05);transform-origin:top center}
+.more-card .mc-body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.more-card .mc-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:8px;font-weight:500}
+.more-card .mc-tag .pip{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.more-card .mc-title{font-family:var(--font-serif);font-weight:400;font-size:20px;letter-spacing:-.005em;line-height:1.15;color:var(--ink)}
+.more-card .mc-desc{font-family:var(--font-sans);font-size:12.5px;line-height:1.5;color:var(--mute);flex:1}
+.more-card .mc-cta{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:500;display:inline-flex;align-items:center;gap:6px;border-bottom:1px solid var(--ink);padding-bottom:4px;align-self:flex-start;transition:all .3s}
+.more-card:hover .mc-cta{color:var(--accent);border-color:var(--accent);gap:10px}
+
+/* ====== SLIDE 9 — COLOPHON / CONTACT ====== */
+.s-colophon{align-items:stretch;justify-content:stretch;display:grid;grid-template-rows:auto 1fr auto;gap:5vmin;padding:90px 6vmin 80px}
+.s-colophon-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--ink)}
+.s-colophon-top .marker{font-family:var(--font-mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:10px}
+.s-colophon-top .marker::before{content:'';width:32px;height:1px;background:var(--accent)}
+.s-colophon-top .meta{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.s-colophon-center{display:grid;grid-template-columns:1.5fr 1fr;gap:6vmin;align-items:center}
+.s-colophon-headline h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(54px,8.5vw,140px);line-height:.95;letter-spacing:-.03em;color:var(--ink)}
+.s-colophon-headline h2 em{font-style:italic;color:var(--accent)}
+.s-colophon-headline h2 .ornament{font-family:var(--font-serif);font-style:italic;color:var(--mute);font-weight:300}
+.s-colophon-headline p a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:1px;transition:opacity .25s;font-style:normal}
+.s-colophon-headline p a:hover{opacity:.7}
+.s-colophon-headline p{margin-top:24px;font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:clamp(16px,1.5vw,22px);line-height:1.5;color:var(--mute);max-width:480px}
+.s-colophon-cta{display:flex;flex-direction:column;gap:24px;align-items:flex-start}
+.s-colophon-contact{display:flex;flex-direction:column;gap:18px;width:100%}
+.s-colophon-contact .row{display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.s-colophon-contact .row .lbl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);font-weight:500}
+.s-colophon-contact .row .val{font-family:var(--font-serif);font-weight:400;font-size:18px;letter-spacing:-.005em;color:var(--ink)}
+.s-colophon-contact .row .val em{font-style:italic;color:var(--accent)}
+.s-colophon-contact .row .val a{color:inherit;text-decoration:none;transition:color .25s}
+.s-colophon-contact .row .val a:hover{color:var(--accent)}
+.s-colophon-cta-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.s-colophon-bot{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--ink);font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);flex-wrap:wrap;gap:14px}
+.s-colophon-bot strong{color:var(--ink);font-weight:500}
+.s-colophon-notes{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:14px;line-height:1.55;color:var(--mute);max-width:780px;padding-top:18px;border-top:1px solid var(--line)}
+.s-colophon-notes em{font-style:italic;color:var(--ink);font-weight:400}
+.s-colophon-notes a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);transition:opacity .25s}
+.s-colophon-notes a:hover{opacity:.7}
+
+/* ====== Slide-level scrollbar ====== */
+.slide{scrollbar-width:thin;scrollbar-color:var(--mute-soft) transparent}
+.slide::-webkit-scrollbar{width:8px;height:8px}
+.slide::-webkit-scrollbar-track{background:transparent}
+.slide::-webkit-scrollbar-thumb{background:var(--mute-soft);border-radius:0;border:2px solid transparent;background-clip:padding-box}
+.slide::-webkit-scrollbar-thumb:hover{background:var(--accent);background-clip:padding-box;border:2px solid transparent}
+
+/* ====== In-flow footer (mobile) ====== */
+.slide-footer{display:none}
+
+/* ====== Responsive ====== */
+@media (max-width:1024px){
+  .s-foreword-grid{grid-template-columns:1fr;gap:32px}
+  .s-foreword-side{position:static}
+  .fw-hero::before{left:-22px}
+  .s-spread-grid{grid-template-columns:1fr;gap:32px}
+  .works-grid{grid-template-columns:repeat(2,1fr);gap:20px;max-width:640px}
+  .work-card{gap:10px}
+  .more-grid{grid-template-columns:repeat(2,1fr)}
+  .press-grid{grid-template-columns:1fr}
+  .s-cover-bot{grid-template-columns:repeat(2,1fr);gap:24px}
+  .s-colophon-center{grid-template-columns:1fr;gap:32px}
+}
+@media (max-width:640px){
+  html,body{overflow:hidden}
+  .slide-inner,.s-cover,.s-colophon{padding:72px 18px 24px}
+  .brand{top:20px;left:20px;font-size:18px}
+  .nav{top:18px;right:18px;gap:4px}
+  .nav button{width:32px;height:32px;font-size:12px}
+  .counter{padding:0 10px;font-size:10px;height:32px;min-width:54px}
+  .section-tag,.tm-credit{display:none}
+  .works-grid{grid-template-columns:repeat(2,1fr);gap:14px;max-width:none}
+  .work-card{gap:8px}
+  .work-card .wc-desc{display:none}
+  .work-card .wc-title{font-size:18px}
+  .more-grid{grid-template-columns:1fr}
+  .s-cover-bot{grid-template-columns:1fr 1fr;gap:18px}
+  .s-cover-start{position:static;align-items:flex-start;padding:14px 0 0;margin-top:14px;border-top:1px solid var(--line)}
+  .s-cover-start .sb-label{font-size:22px}
+  .s-cover-start .sb-arrow{width:48px}
+  .s-plate-caption{bottom:80px;left:20px;right:20px;flex-direction:column;align-items:flex-start;gap:14px}
+  .s-plate-caption .meta{text-align:left}
+  .s-plate-top,.s-plate-bot{padding:18px 20px}
+  .s-index-row{grid-template-columns:40px 1fr 70px;gap:14px}
+  .s-index-row .desc{display:none}
+  .fw-lede::first-letter{font-size:3.8em}
+  .fw-hero::before{display:none}
+  .fw-hero{padding:18px 0}
+  /* In-flow footer */
+  .slide-footer{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:24px 0 0;margin-top:auto;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);flex-wrap:wrap}
+  .slide-footer .sf-section{display:flex;align-items:center;gap:8px}
+  .slide-footer .sf-section .pip{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  .slide-footer .sf-credit{display:flex;align-items:center;gap:7px;color:var(--mute);text-decoration:none}
+  .slide-footer .sf-credit .pip{width:5px;height:5px;border-radius:50%;background:var(--mute)}
+  .menu-panel{width:94vw;max-height:88vh}
+  .menu-header{padding:20px 22px 16px}
+  .menu-item{padding:12px 22px;gap:14px}
+  .menu-item:hover{padding-left:28px}
+  .menu-item .mi-num{width:24px;font-size:10px}
+  .menu-item .mi-label{font-size:16px}
+  .menu-footer{padding:14px 22px 18px;font-size:9px}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .slide-inner,.s-cover,.s-colophon{padding:60px 28px 40px}
+  .nav{top:14px;right:14px}
+  .brand{top:14px;left:16px}
+  .section-tag{bottom:14px;left:16px}
+  .tm-credit{bottom:14px;right:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <span class="mark"></span>Main words<span class="sub"></span>
+</div>
+
+<div class="section-tag"><span class="pip"></span><span id="sectionName">1</span></div>
+
+<a class="tm-credit" href="https://templatemo.com" target="_blank" rel="nofollow noopener">
+  <span class="tm-dot"></span><span>Ripan Academy</span>
+</a>
+
+<div class="deck" id="deck">
+  <section class="slide active" data-section="Cover" data-sub="Studio introduction">
+   <div class="slide-inner s-cover">
+     <div class="s-cover-top reveal">
+       <div class="tl">
+         <span><strong></strong></span>
+         <span></span>
+       </div>
+       <div class="tr">
+         <span><strong></strong></span>
+         <span></span>
+       </div>
+     </div>
+     <div class="s-cover-footer">
+   
+     <h1 class="h-display">
+     
+     <span class="mw"><span>English Vocabulary</span></span><br>
+     <span class="mw"><span><em></em> </span></span>
+     </h1>
+     <p class="s-cover-tagline reveal">A quick shortcut preparation  for the exams only</p>
+     
+     
+  </div>
+     <div class="s-cover-bot">
+       <div class="item reveal">
+         <span class="lbl"></span>
+         <span class="val"><em></em> <a class="s-cover-start reveal" data-goto="2" aria-label="Begin reading">
+         <span class="sb-num"></span>
+         <span class="sb-label">Begin <em>reading</em></span>
+         <span class="sb-arrow" aria-hidden="true"> </span>
+         </a></span>
+       </div>
+       <div class="item reveal">
+         <span class="lbl"></span>
+         <span class="val"></span>
+       </div>
+       <div class="item reveal">
+         <span class="lbl"></span>
+         <span class="val"></span>
+       </div>
+       <div class="item reveal">
+         <span class="lbl"></span>
+         <span class="val"><em></em></span>
+       </div>
+     </div>
+   </div>
+ </section>
+<!-- ============ 1. FOREWORD ============ -->
+<section class="slide" data-section="Level 1" data-sub="">
+<div class="slide-inner s-foreword">
+<div class="s-foreword-grid">
+<aside class="s-foreword-side">
+<div class="marker reveal"></div>
+<h2 class="reveal"> <em></em></h2>
+<div class="meta reveal"><br></div>
+</aside>
+<div class="s-foreword-body">
+<p class="fw-lede reveal"><b><br>
+  <table border="1">
+  <tbody>
+  <tr>
+  <td>
+  <p><em>Words</em></p>
+  </td>
+  <td>
+  <p><em>Bangla </em></p>
+  </td>
+  <td>
+  <p><em>Synonyms</em></p>
+  </td>
+  <td>
+  <p><em>Antonyms</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Adolescence (n)</em></p>
+  </td>
+  <td>
+  <p><em>কৈশোর</em></p>
+  </td>
+  <td>
+  <p><em>teenage years; youth</em></p>
+  </td>
+  <td>
+  <p><em>adulthood; infancy</em></p>
+  </td>
+  </tr>
+  </tr><tr>
+  <td>
+  <p><em>Fascinate (v)</em></p>
+  </td>
+  <td>
+  <p><em>মুগ্ধ</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>captivate; intrigue</em></p>
+  </td>
+  <td>
+  <p><em>bore; repel</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Empirical (adj)</em></p>
+  </td>
+  <td>
+  <p><em>পরীক্ষামূলক</em><em>, </em><em>অভিজ্ঞতালব্ধ</em></p>
+  </td>
+  <td>
+  <p><em>experimental; observed</em></p>
+  </td>
+  <td>
+  <p><em>theoretical; hypothetical</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Puzzling (adj)</em></p>
+  </td>
+  <td>
+  <p><em>বিভ্রান্তিকর</em><em>, </em><em>রহস্যময়</em></p>
+  </td>
+  <td>
+  <p><em>confusing; mysterious</em></p>
+  </td>
+  <td>
+  <p><em>clear; obvious</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Vivid (adj)</em></p>
+  </td>
+  <td>
+  <p><em>জীবন্ত</em><em>, </em><em>উজ্জ্বল</em></p>
+  </td>
+  <td>
+  <p><em>bright; intense</em></p>
+  </td>
+  <td>
+  <p><em>dull; faded</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Frightening (adj)</em></p>
+  </td>
+  <td>
+  <p><em>ভীতিকর</em></p>
+  </td>
+  <td>
+  <p><em>terrifying; alarming</em></p>
+  </td>
+  <td>
+  <p><em>comforting; reassuring</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Consensus (n)</em></p>
+  </td>
+  <td>
+  <p><em>ঐক্যমত্য</em></p>
+  </td>
+  <td>
+  <p><em>agreement; harmony</em></p>
+  </td>
+  <td>
+  <p><em>disagreement; discord</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Baffling (adj)</em></p>
+  </td>
+  <td>
+  <p><em>হতবুদ্ধিকর</em></p>
+  </td>
+  <td>
+  <p><em>perplexing; confusing</em></p>
+  </td>
+  <td>
+  <p><em>clear; understandable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Essential (adj)</em></p>
+  </td>
+  <td>
+  <p><em>অপরিহার্য</em></p>
+  </td>
+  <td>
+  <p><em>necessary; crucial</em></p>
+  </td>
+  <td>
+  <p><em>unnecessary; optional</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Perspective (n)</em></p>
+  </td>
+  <td>
+  <p><em>দৃষ্টিভঙ্গি</em></p>
+  </td>
+  <td>
+  <p><em>viewpoint; outlook</em></p>
+  </td>
+  <td>
+  <p><em>narrow-mindedness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Subconscious (adj)</em></p>
+  </td>
+  <td>
+  <p><em>অবচেতন</em></p>
+  </td>
+  <td>
+  <p><em>hidden; latent</em></p>
+  </td>
+  <td>
+  <p><em>conscious; aware</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Repress (v)</em></p>
+  </td>
+  <td>
+  <p><em>দমন</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>suppress; restrain</em></p>
+  </td>
+  <td>
+  <p><em>express; release</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Awareness (n)</em></p>
+  </td>
+  <td>
+  <p><em>সচেতনতা</em></p>
+  </td>
+  <td>
+  <p><em>consciousness; recognition</em></p>
+  </td>
+  <td>
+  <p><em>ignorance; unawareness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fulfillment (n)</em></p>
+  </td>
+  <td>
+  <p><em>পরিপূর্ণতা</em><em>, </em><em>পরিতৃপ্তি</em></p>
+  </td>
+  <td>
+  <p><em>achievement; satisfaction</em></p>
+  </td>
+  <td>
+  <p><em>failure; dissatisfaction</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Disguised (adj)</em></p>
+  </td>
+  <td>
+  <p><em>ছদ্মবেশী</em></p>
+  </td>
+  <td>
+  <p><em>hidden; masked</em></p>
+  </td>
+  <td>
+  <p><em>exposed; revealed</em></p>
+  </td>
+  </tr><tr>
+  <td width="73">
+  <p class="wp-block-paragraph"><em>Words</em></p>
+  </td>
+  <td width="78">
+  <p><em>Bangla </em></p>
+  </td>
+  <td width="90">
+  <p><em>Synonyms</em></p>
+  </td>
+  <td width="84">
+  <p><em>Antonyms</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Philosopher (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>দার্শনিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>thinker; scholar; intellectual</em></p>
+  </td>
+  <td width="84">
+  <p><em>fool; </em></p>
+  <p><em>ignoramus</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Social (adj)</em></p>
+  </td>
+  <td width="78">
+  <p><em>সামাজিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>communal; friendly; interactive</em></p>
+  </td>
+  <td width="84">
+  <p><em>antisocial; isolated</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Animal (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>প্রাণী</em></p>
+  </td>
+  <td width="90">
+  <p><em>creature; beast; living being</em></p>
+  </td>
+  <td width="84">
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Instinct (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>সহজাত</em> <em>প্রবৃত্তি</em></p>
+  </td>
+  <td width="90">
+  <p><em>intuition; impulse; natural tendency</em></p>
+  </td>
+  <td width="84">
+  <p><em>learned behavior; </em></p>
+  <p><em>reason</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Relationship (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>সম্পর্ক</em></p>
+  </td>
+  <td width="90">
+  <p><em>bond; connection; association</em></p>
+  </td>
+  <td width="84">
+  <p><em>detachment; separation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Companionship (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>সঙ্গ</em></p>
+  </td>
+  <td width="90">
+  <p><em>friendship; fellowship; closeness</em></p>
+  </td>
+  <td width="84">
+  <p><em>loneliness; solitude</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Meaning (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>অর্থ</em></p>
+  </td>
+  <td width="90">
+  <p><em>significance; sense; essence</em></p>
+  </td>
+  <td width="84">
+  <p><em>Meaning</em></p>
+  <p><em>lessness; insignifi</em></p>
+  <p><em>cance</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Inspire (v)</em></p>
+  </td>
+  <td width="78">
+  <p><em>অনুপ্রাণিত</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>motivate; encourage; stimulate</em></p>
+  </td>
+  <td width="84">
+  <p><em>discourage; demotivate</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Familial (adj)</em></p>
+  </td>
+  <td width="78">
+  <p><em>পারিবারিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>domestic; hereditary; related</em></p>
+  </td>
+  <td width="84">
+  <p><em>unrelated; nonfamilial</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Intimate (adj)</em></p>
+  </td>
+  <td width="78">
+  <p><em>ঘনিষ্ঠ</em></p>
+  </td>
+  <td width="90">
+  <p><em>close; personal; affectionate</em></p>
+  </td>
+  <td width="84">
+  <p><em>distant; </em></p>
+  <p><em>aloof</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Foster (v)</em></p>
+  </td>
+  <td width="78">
+  <p><em>লালন</em><em>&#8211;</em><em>পালন</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>nurture; cultivate; develop</em></p>
+  </td>
+  <td width="84">
+  <p><em>neglect; abandon</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Isolation (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>বিচ্ছিন্নতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>solitude; seclusion; loneliness</em></p>
+  </td>
+  <td width="84">
+  <p><em>connection; inclusion</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Sorrow (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>দুঃখ</em></p>
+  </td>
+  <td width="90">
+  <p><em>grief; sadness; heartache</em></p>
+  </td>
+  <td width="84">
+  <p><em>joy; happiness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Trust (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>বিশ্বাস</em></p>
+  </td>
+  <td width="90">
+  <p><em>faith; confidence; reliance</em></p>
+  </td>
+  <td width="84">
+  <p><em>distrust; skepticism</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Respect (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>সম্মান</em></p>
+  </td>
+  <td width="90">
+  <p><em>esteem; honor; admiration</em></p>
+  </td>
+  <td width="84">
+  <p><em>disrespect; dishonor</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Selfish (adj)</em></p>
+  </td>
+  <td width="78">
+  <p><em>স্বার্থপর</em></p>
+  </td>
+  <td width="90">
+  <p><em>egotistical; self-</em></p>
+  <p><em>centered</em></p>
+  </td>
+  <td width="84">
+  <p><em>selfless; generous</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Possessive </em></p>
+  <p><em>(adj)</em></p>
+  </td>
+  <td width="78">
+  <p><em>মালিকানাসূচক</em></p>
+  </td>
+  <td width="90">
+  <p><em>controlling; clingy; dominant</em></p>
+  </td>
+  <td width="84">
+  <p><em>indifferent; detached</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Quarrel (v)</em></p>
+  </td>
+  <td width="78">
+  <p><em>ঝগড়া</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>argue; dispute; </em></p>
+  <p><em>fight</em></p>
+  </td>
+  <td width="84">
+  <p><em>agree; reconcile</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Misery (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>দুর্দশা</em></p>
+  </td>
+  <td width="90">
+  <p><em>suffering; distress; anguish</em></p>
+  </td>
+  <td width="84">
+  <p><em>happiness; comfort</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="73">
+  <p><em>Loss (n)</em></p>
+  </td>
+  <td width="78">
+  <p><em>ক্ষতি</em></p>
+  </td>
+  <td width="90">
+  <p><em>deprivation; disadvantage</em></p>
+  </td>
+  <td width="84">
+  <p><em>gain; benefit</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Transition (n)</em></p>
+  </td>
+  <td>
+  <p><em>পরিবর্তন</em><em>, </em><em>রূপান্তর</em></p>
+  </td>
+  <td>
+  <p><em>shift; transformation</em></p>
+  </td>
+  <td>
+  <p><em>stagnation; stability</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Puberty (n)</em></p>
+  </td>
+  <td>
+  <p><em>যৌবনপ্রাপ্তি</em><em>, </em><em>বয়ঃসন্ধি</em></p>
+  </td>
+  <td>
+  <p><em>maturation; development</em></p>
+  </td>
+  <td>
+  <p><em>infancy; immaturity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Determinant (n)</em></p>
+  </td>
+  <td>
+  <p><em>নির্ধারক</em> <em>উপাদান</em></p>
+  </td>
+  <td>
+  <p><em>factor; cause</em></p>
+  </td>
+  <td>
+  <p><em>consequence; result</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Socio-economic (adj)</em></p>
+  </td>
+  <td>
+  <p><em>সামাজিক</em> <em>ও</em> <em>অর্থনৈতিক</em> <em>সম্পর্কিত</em></p>
+  </td>
+  <td>
+  <p><em>social and financial</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Urbanization (n)</em></p>
+  </td>
+  <td>
+  <p><em>নগরায়ণ</em></p>
+  </td>
+  <td>
+  <p><em>city development; modernization</em></p>
+  </td>
+  <td>
+  <p><em>ruralization; de-urbanization</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Acquisition (n)</em></p>
+  </td>
+  <td>
+  <p><em>অর্জন</em><em>, </em><em>লাভ</em></p>
+  </td>
+  <td>
+  <p><em>attainment; gaining</em></p>
+  </td>
+  <td>
+  <p><em>loss; forfeiture</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Abstract (adj)</em></p>
+  </td>
+  <td>
+  <p><em>বিমূর্ত</em><em>, </em><em>ধারণাগত</em></p>
+  </td>
+  <td>
+  <p><em>conceptual; theoretical</em></p>
+  </td>
+  <td>
+  <p><em>concrete; tangible</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Tremendous (adj)</em></p>
+  </td>
+  <td>
+  <p><em>প্রচণ্ড</em><em>, </em><em>বিশাল</em></p>
+  </td>
+  <td>
+  <p><em>huge; immense</em></p>
+  </td>
+  <td>
+  <p><em>tiny; insignificant</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Potential (n)</em></p>
+  </td>
+  <td>
+  <p><em>সম্ভাবনা</em><em>, </em><em>সম্ভাব্যতা</em></p>
+  </td>
+  <td>
+  <p><em>capability; possibility</em></p>
+  </td>
+  <td>
+  <p><em>limitation; impossibility</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Context (n)</em></p>
+  </td>
+  <td>
+  <p><em>প্রসঙ্গ</em><em>, </em><em>প্রেক্ষাপট</em></p>
+  </td>
+  <td>
+  <p><em>situation; background</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Influence (v)</em></p>
+  </td>
+  <td>
+  <p><em>প্রভাবিত</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>impact; sway</em></p>
+  </td>
+  <td>
+  <p><em>discourage; deter</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Adjustment (n)</em></p>
+  </td>
+  <td>
+  <p><em>মানিয়ে</em> <em>নেওয়া</em><em>, </em><em>সামঞ্জস্য</em></p>
+  </td>
+  <td>
+  <p><em>adaptation; modification</em></p>
+  </td>
+  <td>
+  <p><em>rigidity; resistance</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Abstain (v)</em></p>
+  </td>
+  <td>
+  <p><em>বিরত</em> <em>থাকা</em></p>
+  </td>
+  <td>
+  <p><em>refrain; avoid</em></p>
+  </td>
+  <td>
+  <p><em>indulge; partake</em></p>
+  </td>
+ 
+  <tr>
+  <td>
+  <p><em>Well-being (n)</em></p>
+  </td>
+  <td>
+  <p><em>কল্যাণ</em><em>, </em><em>সুস্বাস্থ্য</em></p>
+  </td>
+  <td>
+  <p><em>welfare; prosperity</em></p>
+  </td>
+  <td>
+  <p><em>distress; misery</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Knowledge (n)</em></p>
+  </td>
+  <td>
+  <p><em>জ্ঞান</em></p>
+  </td>
+  <td>
+  <p><em>awareness; understanding; information</em></p>
+  </td>
+  <td>
+  <p><em>ignorance; unawareness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Rationally (adv)</em></p>
+  </td>
+  <td>
+  <p><em>যুক্তিসঙ্গত</em></p>
+  <p><em>ভাবে</em></p>
+  </td>
+  <td>
+  <p><em>logically; sensibly; reasonably</em></p>
+  </td>
+  <td>
+  <p><em>irrationally; illogically</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Confidence (n)</em></p>
+  </td>
+  <td>
+  <p><em>আত্মবিশ্বাস</em></p>
+  </td>
+  <td>
+  <p><em>self-assurance; trust; belief</em></p>
+  </td>
+  <td>
+  <p><em>doubt; insecurity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Communicate (v)</em></p>
+  </td>
+  <td>
+  <p><em>যোগাযোগ</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>convey; express; interact</em></p>
+  </td>
+  <td>
+  <p><em>misinterpret; suppress</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Independently (adv)</em></p>
+  </td>
+  <td>
+  <p><em>স্বাধীনভাবে</em></p>
+  </td>
+  <td>
+  <p><em>freely; autonomously</em></p>
+  </td>
+  <td>
+  <p><em>dependently; submissively</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Awareness (n)</em></p>
+  </td>
+  <td>
+  <p><em>সচেতনতা</em></p>
+  </td>
+  <td>
+  <p><em>consciousness; realization</em></p>
+  </td>
+  <td>
+  <p><em>ignorance; unawareness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Personality (n)</em></p>
+  </td>
+  <td>
+  <p><em>ব্যক্তিত্ব</em></p>
+  </td>
+  <td>
+  <p><em>character; identity; disposition</em></p>
+  </td>
+  <td>
+  <p><em>anonymity; impersonality</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Expand (v)</em></p>
+  </td>
+  <td>
+  <p><em>প্রসারিত</em></p>
+  <p><em>করা</em></p>
+  </td>
+  <td>
+  <p><em>enlarge; extend; broaden</em></p>
+  </td>
+  <td>
+  <p><em>contract; shrink</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Community (n)</em></p>
+  </td>
+  <td>
+  <p><em>সম্প্রদায়</em></p>
+  </td>
+  <td>
+  <p><em>society; group; neighborhood</em></p>
+  </td>
+  <td>
+  <p><em>isolation; individualism</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Welfare (n)</em></p>
+  </td>
+  <td>
+  <p><em>কল্যাণ</em></p>
+  </td>
+  <td>
+  <p><em>well-being; benefit; prosperity</em></p>
+  </td>
+  <td>
+  <p><em>misery; suffering</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Potential (n)</em></p>
+  </td>
+  <td>
+  <p><em>সম্ভাবনা</em></p>
+  </td>
+  <td>
+  <p><em>ability; capacity; capability</em></p>
+  </td>
+  <td>
+  <p><em>limitation; incapability</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Strength (n)</em></p>
+  </td>
+  <td>
+  <p><em>শক্তি</em></p>
+  </td>
+  <td>
+  <p><em>power; resilience; toughness</em></p>
+  </td>
+  <td>
+  <p><em>weakness; fragility</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Creativity (n)</em></p>
+  </td>
+  <td>
+  <p><em>সৃজনশীল</em></p>
+  <p><em>তা</em></p>
+  </td>
+  <td>
+  <p><em>innovation; originality; imagination</em></p>
+  </td>
+  <td>
+  <p><em>dullness; conventiona</em></p>
+  <p><em>lity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Intellect (n)</em></p>
+  </td>
+  <td>
+  <p><em>বুদ্ধিমত্তা</em></p>
+  </td>
+  <td>
+  <p><em>intelligence; reasoning ability</em></p>
+  </td>
+  <td>
+  <p><em>stupidity; foolishness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Productive (adj)</em></p>
+  </td>
+  <td>
+  <p><em>উৎপাদন</em></p>
+  <p><em>শীল</em></p>
+  </td>
+  <td>
+  <p><em>efficient; fruitful; constructive</em></p>
+  </td>
+  <td>
+  <p><em>unproductive; ineffective</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Definition (n)</em></p>
+  </td>
+  <td>
+  <p><em>সংজ্ঞা</em></p>
+  </td>
+  <td>
+  <p><em>explanation; meaning</em></p>
+  </td>
+  <td>
+  <p><em>ambiguity; vagueness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Progressive (adj)</em></p>
+  </td>
+  <td>
+  <p><em>অগ্রসরমান</em></p>
+  </td>
+  <td>
+  <p><em>forward-thinking; modern</em></p>
+  </td>
+  <td>
+  <p><em>conservative; regressive</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Liberal (adj)</em></p>
+  </td>
+  <td>
+  <p><em>উদার</em></p>
+  </td>
+  <td>
+  <p><em>open-minded; tolerant</em></p>
+  </td>
+  <td>
+  <p><em>narrow-minded; intolerant</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Diversity (n)</em></p>
+  </td>
+  <td>
+  <p><em>বৈচিত্র্য</em></p>
+  </td>
+  <td>
+  <p><em>variety; difference; multiplicity</em></p>
+  </td>
+  <td>
+  <p><em>uniformity; similarity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Harmony (n)</em></p>
+  </td>
+  <td>
+  <p><em>সাদৃশ্য</em></p>
+  </td>
+  <td>
+  <p><em>peace; agreement; unity</em></p>
+  </td>
+  <td>
+  <p><em>conflict; discord</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Legendary </em></p>
+  <p><em>(adj)</em></p>
+  </td>
+  <td>
+  <p><em>কিংবদন্তি</em></p>
+  </td>
+  <td>
+  <p><em>famous; </em></p>
+  <p><em>mythical; </em></p>
+  <p><em>renowned</em></p>
+  </td>
+  <td>
+  <p><em>unknown; </em></p>
+  <p><em>obscure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Folk (adj)</em></p>
+  </td>
+  <td>
+  <p><em>লোকসংক্রান্ত</em></p>
+  </td>
+  <td>
+  <p><em>traditional; </em></p>
+  <p><em>cultural</em></p>
+  </td>
+  <td>
+  <p><em>modern; </em></p>
+  <p><em>contemporary</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Heroine (n)</em></p>
+  </td>
+  <td>
+  <p><em>নায়িকা</em></p>
+  </td>
+  <td>
+  <p><em>female </em></p>
+  <p><em>protagonist; </em></p>
+  <p><em>leading lady</em></p>
+  </td>
+  <td>
+  <p><em>villain; </em></p>
+  <p><em>antagonist</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Epic (n)</em></p>
+  </td>
+  <td>
+  <p><em>মহাকাব্য</em></p>
+  </td>
+  <td>
+  <p><em>saga; legend</em></p>
+  </td>
+  <td>
+  <p><em>short story</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Devotee (n)</em></p>
+  </td>
+  <td>
+  <p><em>ভক্ত</em></p>
+  </td>
+  <td>
+  <p><em>worshipper; </em></p>
+  <p><em>follower</em></p>
+  </td>
+  <td>
+  <p><em>nonbeliever; </em></p>
+  <p><em>skeptic</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Boast (v)</em></p>
+  </td>
+  <td>
+  <p><em>গর্ব</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>brag; flaunt</em></p>
+  </td>
+  <td>
+  <p><em>humble; </em></p>
+  <p><em>modest</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Impregnable </em></p>
+  <p><em>(adj)</em></p>
+  </td>
+  <td>
+  <p><em>অভেদ্য</em></p>
+  </td>
+  <td>
+  <p><em>unbreakable; </em></p>
+  <p><em>indestructible</em></p>
+  </td>
+  <td>
+  <p><em>vulnerable; </em></p>
+  <p><em>weak</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Chamber (n)</em></p>
+  </td>
+  <td>
+  <p><em>কক্ষ</em></p>
+  </td>
+  <td>
+  <p><em>room; </em></p>
+  <p><em>compartment</em></p>
+  </td>
+  <td>
+  <p><em>open space</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Hazardous </em></p>
+  <p><em>(adj)</em></p>
+  </td>
+  <td>
+  <p><em>বিপজ্জনক</em></p>
+  </td>
+  <td>
+  <p><em>dangerous; </em></p>
+  <p><em>risky</em></p>
+  </td>
+  <td>
+  <p><em>safe; secure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Abode (n)</em></p>
+  </td>
+  <td>
+  <p><em>বাসস্থান</em></p>
+  </td>
+  <td>
+  <p><em>dwelling; </em></p>
+  <p><em>residence</em></p>
+  </td>
+  <td>
+  <p><em>exile; </em></p>
+  <p><em>homelessness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Encounter </em></p>
+  <p><em>(v)</em></p>
+  </td>
+  <td>
+  <p><em>মুখোমুখি</em> <em>হওয়া</em></p>
+  </td>
+  <td>
+  <p><em>face; meet</em></p>
+  </td>
+  <td>
+  <p><em>avoid; evade</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Plead (v)</em></p>
+  </td>
+  <td>
+  <p><em>অনুরোধ</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>beg; appeal</em></p>
+  </td>
+  <td>
+  <p><em>refuse; deny</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Restore (v)</em></p>
+  </td>
+  <td>
+  <p><em>পুনরুদ্ধার</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>revive; </em></p>
+  <p><em>reinstate</em></p>
+  </td>
+  <td>
+  <p><em>destroy; </em></p>
+  <p><em>abolish</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Bow (v)</em></p>
+  </td>
+  <td>
+  <p><em>নত</em> <em>হওয়া</em></p>
+  </td>
+  <td>
+  <p><em>submit; </em></p>
+  <p><em>surrender</em></p>
+  </td>
+  <td>
+  <p><em>resist; defy</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Might (n)</em></p>
+  </td>
+  <td>
+  <p><em>শক্তি</em></p>
+  </td>
+  <td>
+  <p><em>power; </em></p>
+  <p><em>strength</em></p>
+  </td>
+  <td>
+  <p><em>weakness; </em></p>
+  <p><em>frailty</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Worship (v)</em></p>
+  </td>
+  <td>
+  <p><em>পূজা</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>revere; </em></p>
+  <p><em>venerate</em></p>
+  </td>
+  <td>
+  <p><em>despise; </em></p>
+  <p><em>disrespect</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Temptation </em></p>
+  <p><em>(n)</em></p>
+  </td>
+  <td>
+  <p><em>প্রলোভন</em></p>
+  </td>
+  <td>
+  <p><em>allure; </em></p>
+  <p><em>enticement</em></p>
+  </td>
+  <td>
+  <p><em>repulsion; </em></p>
+  <p><em>aversion</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Journey (n)</em></p>
+  </td>
+  <td>
+  <p><em>যাত্রা</em></p>
+  </td>
+  <td>
+  <p><em>voyage; </em></p>
+  <p><em>expedition</em></p>
+  </td>
+  <td>
+  <p><em>stagnation; </em></p>
+  <p><em>immobility</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Finally (adv)</em></p>
+  </td>
+  <td>
+  <p><em>শেষ</em> <em>পর্যন্ত</em></p>
+  </td>
+  <td>
+  <p><em>ultimately; </em></p>
+  <p><em>eventually</em></p>
+  </td>
+  <td>
+  <p><em>initially; </em></p>
+  <p><em>at first</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Protagonist </em></p>
+  <p><em>(n)</em></p>
+  </td>
+  <td>
+  <p><em>প্রধান</em> <em>চরিত্র</em></p>
+  </td>
+  <td>
+  <p><em>hero; main </em></p>
+  <p><em>character</em></p>
+  </td>
+  <td>
+  <p><em>antagonist; </em></p>
+  <p><em>adversary</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Utterly (adv)</em></p>
+  </td>
+  <td>
+  <p><em>সম্পূর্ণরূপে</em></p>
+  </td>
+  <td>
+  <p><em>completely, totally</em></p>
+  </td>
+  <td>
+  <p><em>partly, slightly</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Etiquette (n)</em></p>
+  </td>
+  <td>
+  <p><em>আচার</em><em>&#8211;</em><em>ব্যবহার</em><em>, </em><em>শিষ্টাচার</em></p>
+  </td>
+  <td>
+  <p><em>manners, courtesy</em></p>
+  </td>
+  <td>
+  <p><em>rudeness, impoliteness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Command (v)</em></p>
+  </td>
+  <td>
+  <p><em>আদেশ</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>order, direct</em></p>
+  </td>
+  <td>
+  <p><em>request, plead</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Exquisite (adj)</em></p>
+  </td>
+  <td>
+  <p><em>অপূর্ব</em><em>, </em><em>চমৎকার</em></p>
+  </td>
+  <td>
+  <p><em>beautiful, elegant</em></p>
+  </td>
+  <td>
+  <p><em>ugly, crude</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Surveillance (n)</em></p>
+  </td>
+  <td>
+  <p><em>নজরদারি</em></p>
+  </td>
+  <td>
+  <p><em>supervision, watch</em></p>
+  </td>
+  <td>
+  <p><em>neglect, inattention</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fault-finder (n)</em></p>
+  </td>
+  <td>
+  <p><em>দোষ</em> <em>অনুসন্ধানকারী</em></p>
+  </td>
+  <td>
+  <p><em>critic, complainer</em></p>
+  </td>
+  <td>
+  <p><em>supporter, admirer</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Entourage (n)</em></p>
+  </td>
+  <td>
+  <p><em>সঙ্গী</em><em>&#8211;</em><em>সাথী</em><em>, </em><em>অনুসারী</em> <em>দল</em></p>
+  </td>
+  <td>
+  <p><em>retinue, attendants</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Overwhelming (adj)</em></p>
+  </td>
+  <td>
+  <p><em>প্রবল</em><em>, </em><em>অত্যধিক</em></p>
+  </td>
+  <td>
+  <p><em>overpowering, immense</em></p>
+  </td>
+  <td>
+  <p><em>weak, trivial</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Audacity (n)</em></p>
+  </td>
+  <td>
+  <p><em>দুঃসাহস</em></p>
+  </td>
+  <td>
+  <p><em>boldness, daring</em></p>
+  </td>
+  <td>
+  <p><em>timidity, fear</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Infamous (adj)</em></p>
+  </td>
+  <td>
+  <p><em>কুখ্যাত</em></p>
+  </td>
+  <td>
+  <p><em>notorious, dishonorable</em></p>
+  </td>
+  <td>
+  <p><em>famous, reputable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Grave (adj)</em></p>
+  </td>
+  <td>
+  <p><em>গম্ভীর</em><em>, </em><em>গুরুতর</em></p>
+  </td>
+  <td>
+  <p><em>serious, solemn</em></p>
+  </td>
+  <td>
+  <p><em>trivial, lighthearted</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Herald (v/n)</em></p>
+  </td>
+  <td>
+  <p><em>ঘোষণা</em><em>/</em><em>অগ্রদূত</em></p>
+  </td>
+  <td>
+  <p><em>announce, signal</em></p>
+  </td>
+  <td>
+  <p><em>conceal, hide</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Sigh (n/v)</em></p>
+  </td>
+  <td>
+  <p><em>দীর্ঘশ্বাস</em></p>
+  </td>
+  <td>
+  <p><em>exhale, moan</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Ornament (n)</em></p>
+  </td>
+  <td>
+  <p><em>অলংকার</em></p>
+  </td>
+  <td>
+  <p><em>decoration, jewelry</em></p>
+  </td>
+  <td>
+  <p><em>plainness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Luxury (n)</em></p>
+  </td>
+  <td>
+  <p><em>ভোগ</em><em>&#8211;</em><em>বিলাস</em></p>
+  </td>
+  <td>
+  <p><em>comfort, extravagance</em></p>
+  </td>
+  <td>
+  <p><em>poverty, hardship</em></p>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+  <p> </p>
+  <p><em>Here’s a <strong>Vocabulary Table of 50 words</strong> based on the passage</em></p>
+  <table width="79" border="1">
+  <tbody>
+  <tr>
+  <td>
+  <p><strong><em>Word</em></strong></p>
+  </td>
+  <td>
+  <p><strong><em>Part of Speech</em></strong></p>
+  </td>
+  <td>
+  <p><strong><em>Bangla</em></strong></p>
+  </td>
+  <td>
+  <p><strong><em>Synonyms</em></strong></p>
+  </td>
+  <td>
+  <p><strong><em>Antonyms</em></strong></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Bird</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>পাখি</em></p>
+  </td>
+  <td>
+  <p><em>Fowl</em></p>
+  </td>
+  <td>
+  <p><em>Mammal</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Foolish</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>মূর্খ</em></p>
+  </td>
+  <td>
+  <p><em>Silly, unwise</em></p>
+  </td>
+  <td>
+  <p><em>Wise, intelligent</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Sang</em></p>
+  </td>
+  <td>
+  <p><em>Verb</em></p>
+  </td>
+  <td>
+  <p><em>গান</em> <em>গেয়েছে</em></p>
+  </td>
+  <td>
+  <p><em>Vocalized, chirped</em></p>
+  </td>
+  <td>
+  <p><em>Silence</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Scriptures</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>শাস্ত্র</em></p>
+  </td>
+  <td>
+  <p><em>Holy texts</em></p>
+  </td>
+  <td>
+  <p><em>Fiction, novel</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Flew</em></p>
+  </td>
+  <td>
+  <p><em>Verb</em></p>
+  </td>
+  <td>
+  <p><em>উড়েছিল</em></p>
+  </td>
+  <td>
+  <p><em>Soared, glided</em></p>
+  </td>
+  <td>
+  <p><em>Landed</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Jumped</em></p>
+  </td>
+  <td>
+  <p><em>Verb</em></p>
+  </td>
+  <td>
+  <p><em>লাফালাফি</em> <em>করেছে</em></p>
+  </td>
+  <td>
+  <p><em>Leaped, hopped</em></p>
+  </td>
+  <td>
+  <p><em>Crawled</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Etiquette</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>শিষ্টাচার</em></p>
+  </td>
+  <td>
+  <p><em>Manners, decorum</em></p>
+  </td>
+  <td>
+  <p><em>Impropriety</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>King</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>রাজা</em></p>
+  </td>
+  <td>
+  <p><em>Monarch, ruler</em></p>
+  </td>
+  <td>
+  <p><em>Subject, commoner</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Use</em></p>
+  </td>
+  <td>
+  <p><em>Noun/Verb</em></p>
+  </td>
+  <td>
+  <p><em>ব্যবহার</em></p>
+  </td>
+  <td>
+  <p><em>Purpose, function</em></p>
+  </td>
+  <td>
+  <p><em>Uselessness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fruits</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>ফল</em></p>
+  </td>
+  <td>
+  <p><em>Produce</em></p>
+  </td>
+  <td>
+  <p><em>Vegetables</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Deficit</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>ঘাটতি</em></p>
+  </td>
+  <td>
+  <p><em>Shortfall, loss</em></p>
+  </td>
+  <td>
+  <p><em>Surplus</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Minister</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>মন্ত্রী</em></p>
+  </td>
+  <td>
+  <p><em>Official, administrator</em></p>
+  </td>
+  <td>
+  <p><em>Commoner</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Commanded</em></p>
+  </td>
+  <td>
+  <p><em>Verb</em></p>
+  </td>
+  <td>
+  <p><em>আদেশ</em> <em>দিয়েছেন</em></p>
+  </td>
+  <td>
+  <p><em>Ordered, directed</em></p>
+  </td>
+  <td>
+  <p><em>Requested</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Educate</em></p>
+  </td>
+  <td>
+  <p><em>Verb</em></p>
+  </td>
+  <td>
+  <p><em>শিক্ষা</em> <em>দেওয়া</em></p>
+  </td>
+  <td>
+  <p><em>Teach, train</em></p>
+  </td>
+  <td>
+  <p><em>Neglect</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Responsibility</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>দায়িত্ব</em></p>
+  </td>
+  <td>
+  <p><em>Duty, obligation</em></p>
+  </td>
+  <td>
+  <p><em>Irresponsibility</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Scholars</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>পণ্ডিত</em></p>
+  </td>
+  <td>
+  <p><em>Academics, intellectuals</em></p>
+  </td>
+  <td>
+  <p><em>Ignorant</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Discussions</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>আলোচনা</em></p>
+  </td>
+  <td>
+  <p><em>Debate, talk</em></p>
+  </td>
+  <td>
+  <p><em>Silence</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Reason</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>কারণ</em></p>
+  </td>
+  <td>
+  <p><em>Cause, explanation</em></p>
+  </td>
+  <td>
+  <p><em>Irrationality</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Conclusion</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>সিদ্ধান্ত</em></p>
+  </td>
+  <td>
+  <p><em>Decision, result</em></p>
+  </td>
+  <td>
+  <p><em>Beginning</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Tiny</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>ক্ষুদ্র</em></p>
+  </td>
+  <td>
+  <p><em>Small, minute</em></p>
+  </td>
+  <td>
+  <p><em>Large, huge</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Nest</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>বাসা</em></p>
+  </td>
+  <td>
+  <p><em>Home, roost</em></p>
+  </td>
+  <td>
+  <p><em>Cage</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Chips</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>কাটা</em> <em>অংশ</em></p>
+  </td>
+  <td>
+  <p><em>Splinters, fragments</em></p>
+  </td>
+  <td>
+  <p><em>Whole</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Twigs</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>ডালপালা</em></p>
+  </td>
+  <td>
+  <p><em>Branchlets, sticks</em></p>
+  </td>
+  <td>
+  <p><em>Trunk</em></p>
+  </td>
+  </tr><tr>
+  <td width="76">
+  <p><em>Appreciate (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>প্রশংসা</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>admire; value; recognize</em></p>
+  </td>
+  <td width="87">
+  <p><em>criticize; disapprove</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Define (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>সংজ্ঞায়িত</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>explain; describe; characterize</em></p>
+  </td>
+  <td width="87">
+  <p><em>confuse; obscure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Pleasurable (adj)</em></p>
+  </td>
+  <td width="59">
+  <p><em>আনন্দদায়ক</em></p>
+  </td>
+  <td width="108">
+  <p><em>enjoyable; delightful; pleasing</em></p>
+  </td>
+  <td width="87">
+  <p><em>unpleasant; distressing</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Discover (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>আবিষ্কার</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>find; uncover; realize</em></p>
+  </td>
+  <td width="87">
+  <p><em>overlook; ignore</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Manifest (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>প্রকাশ</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>display; reveal; show</em></p>
+  </td>
+  <td width="87">
+  <p><em>hide; conceal</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Absence (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>অনুপস্থিতি</em></p>
+  </td>
+  <td width="108">
+  <p><em>lack; nonexistence; deficiency</em></p>
+  </td>
+  <td width="87">
+  <p><em>presence; existence</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Repulse (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>প্রতিহত</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>reject; repel; disgust</em></p>
+  </td>
+  <td width="87">
+  <p><em>attract; allure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Ugliness (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>কদর্যতা</em></p>
+  </td>
+  <td width="108">
+  <p><em>Unattractive</em></p>
+  <p><em>ness; deformity</em></p>
+  </td>
+  <td width="87">
+  <p><em>beauty; elegance</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Desire (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>আকাঙ্ক্ষা</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>want; wish for; crave</em></p>
+  </td>
+  <td width="87">
+  <p><em>dislike; detest</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Justice (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>ন্যায়বিচার</em></p>
+  </td>
+  <td width="108">
+  <p><em>fairness; equity; righteousness</em></p>
+  </td>
+  <td width="87">
+  <p><em>injustice; unfairness</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Art (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>শিল্প</em></p>
+  </td>
+  <td width="108">
+  <p><em>creativity; expression; craft</em></p>
+  </td>
+  <td width="87">
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Ignore (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>উপেক্ষা</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>neglect; disregard; overlook</em></p>
+  </td>
+  <td width="87">
+  <p><em>acknowledge; notice</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Incorporate (v)</em></p>
+  </td>
+  <td width="59">
+  <p><em>সংযুক্ত</em> <em>করা</em></p>
+  </td>
+  <td width="108">
+  <p><em>include; integrate; combine</em></p>
+  </td>
+  <td width="87">
+  <p><em>exclude; separate</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Tolerable (adj)</em></p>
+  </td>
+  <td width="59">
+  <p><em>সহনীয়</em></p>
+  </td>
+  <td width="108">
+  <p><em>bearable; acceptable; endurable</em></p>
+  </td>
+  <td width="87">
+  <p><em>intolerable; unbearable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Proportion (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>অনুপাত</em></p>
+  </td>
+  <td width="108">
+  <p><em>ratio; balance; symmetry</em></p>
+  </td>
+  <td width="87">
+  <p><em>imbalance; disproportion</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Projection (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>প্রতিফলন</em></p>
+  </td>
+  <td width="108">
+  <p><em>display; representation; extension</em></p>
+  </td>
+  <td width="87">
+  <p><em>concealment; suppression</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Romantic (adj)</em></p>
+  </td>
+  <td width="59">
+  <p><em>রোমান্টিক</em></p>
+  </td>
+  <td width="108">
+  <p><em>idealistic; </em></p>
+  <p><em>poetic; sentimental</em></p>
+  </td>
+  <td width="87">
+  <p><em>realistic; pragmatic</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Celebrated (adj)</em></p>
+  </td>
+  <td width="59">
+  <p><em>বিখ্যাত</em></p>
+  </td>
+  <td width="108">
+  <p><em>famous; renowned; distinguished</em></p>
+  </td>
+  <td width="87">
+  <p><em>unknown; obscure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Pleasant (adj)</em></p>
+  </td>
+  <td width="59">
+  <p><em>আনন্দদায়ক</em></p>
+  </td>
+  <td width="108">
+  <p><em>enjoyable; agreeable; delightful</em></p>
+  </td>
+  <td width="87">
+  <p><em>unpleasant; disagreeable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="76">
+  <p><em>Condition (n)</em></p>
+  </td>
+  <td width="59">
+  <p><em>শর্ত</em></p>
+  </td>
+  <td width="108">
+  <p><em>state; requirement; necessity</em></p>
+  </td>
+  <td width="87">
+  <p><em>disorder; randomness</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Traditional (adj)</em></p>
+  </td>
+  <td>
+  <p><em>ঐতিহ্যবাহী</em><em>, </em><em>প্রচলিত</em></p>
+  </td>
+  <td>
+  <p><em>conventional; customary</em></p>
+  </td>
+  <td>
+  <p><em>modern; unconventional</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Assumption (n)</em></p>
+  </td>
+  <td>
+  <p><em>অনুমান</em><em>, </em><em>ধারনা</em></p>
+  </td>
+  <td>
+  <p><em>presumption; belief</em></p>
+  </td>
+  <td>
+  <p><em>reality; fact</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Vigor (n)</em></p>
+  </td>
+  <td>
+  <p><em>শক্তি</em><em>, </em><em>উদ্যম</em></p>
+  </td>
+  <td>
+  <p><em>energy; strength</em></p>
+  </td>
+  <td>
+  <p><em>weakness; lethargy</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Naïve (adj)</em></p>
+  </td>
+  <td>
+  <p><em>সরল</em><em>, </em><em>অভিজ্ঞতাহীন</em></p>
+  </td>
+  <td>
+  <p><em>innocent; inexperienced</em></p>
+  </td>
+  <td>
+  <p><em>sophisticated; wise</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Intelligence (n)</em></p>
+  </td>
+  <td>
+  <p><em>বুদ্ধিমত্তা</em></p>
+  </td>
+  <td>
+  <p><em>intellect; wisdom</em></p>
+  </td>
+  <td>
+  <p><em>ignorance; stupidity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Counterpart (n)</em></p>
+  </td>
+  <td>
+  <p><em>সমকক্ষ</em> <em>ব্যক্তি</em> <em>বা</em> <em>বস্তু</em></p>
+  </td>
+  <td>
+  <p><em>equivalent; peer</em></p>
+  </td>
+  <td>
+  <p><em>opposite; inferior</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Shatter (v)</em></p>
+  </td>
+  <td>
+  <p><em>গুঁড়িয়ে</em> <em>দেওয়া</em><em>, </em><em>ধ্বংস</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>break; destroy</em></p>
+  </td>
+  <td>
+  <p><em>build; reinforce</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Conclusively (adv)</em></p>
+  </td>
+  <td>
+  <p><em>নিশ্চিতভাবে</em><em>, </em><em>চূড়ান্তভাবে</em></p>
+  </td>
+  <td>
+  <p><em>decisively; finally</em></p>
+  </td>
+  <td>
+  <p><em>doubtfully; uncertainly</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Remote (adj)</em></p>
+  </td>
+  <td>
+  <p><em>দূরবর্তী</em><em>, </em><em>দুর্গম</em></p>
+  </td>
+  <td>
+  <p><em>distant; isolated</em></p>
+  </td>
+  <td>
+  <p><em>nearby; accessible</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Illuminate (v)</em></p>
+  </td>
+  <td>
+  <p><em>আলোকিত</em> <em>করা</em><em>, </em><em>উজ্জ্বল</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>light up; enlighten</em></p>
+  </td>
+  <td>
+  <p><em>darken; obscure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Recognition (n)</em></p>
+  </td>
+  <td>
+  <p><em>স্বীকৃতি</em><em>, </em><em>পরিচিতি</em></p>
+  </td>
+  <td>
+  <p><em>acknowledgment; appreciation</em></p>
+  </td>
+  <td>
+  <p><em>ignorance; disregard</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Determination (n)</em></p>
+  </td>
+  <td>
+  <p><em>দৃঢ়</em> <em>সংকল্প</em><em>, </em><em>স্থির</em> <em>সিদ্ধান্ত</em></p>
+  </td>
+  <td>
+  <p><em>resolve; perseverance</em></p>
+  </td>
+  <td>
+  <p><em>hesitation; indecision</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Emerge (v)</em></p>
+  </td>
+  <td>
+  <p><em>আবির্ভূত</em> <em>হওয়া</em><em>, </em><em>প্রকাশ</em> <em>পাওয়া</em></p>
+  </td>
+  <td>
+  <p><em>appear; develop</em></p>
+  </td>
+  <td>
+  <p><em>disappear; fade</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Talent (n)</em></p>
+  </td>
+  <td>
+  <p><em>প্রতিভা</em><em>, </em><em>দক্ষতা</em></p>
+  </td>
+  <td>
+  <p><em>skill; ability</em></p>
+  </td>
+  <td>
+  <p><em>incompetence; inability</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Adventure (n)</em></p>
+  </td>
+  <td>
+  <p><em>দুঃসাহসিক</em> <em>অভিযান</em></p>
+  </td>
+  <td>
+  <p><em>journey; exploration</em></p>
+  </td>
+  <td>
+  <p><em>routine; inactivity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Inevitable (adj)</em></p>
+  </td>
+  <td>
+  <p><em>অবশ্যম্ভাবী</em><em>, </em><em>অনিবার্য</em></p>
+  </td>
+  <td>
+  <p><em>unavoidable; certain</em></p>
+  </td>
+  <td>
+  <p><em>avoidable; uncertain</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Cherished (adj)</em></p>
+  </td>
+  <td>
+  <p><em>লালিত</em><em>, </em><em>আরাধ্য</em></p>
+  </td>
+  <td>
+  <p><em>treasured; beloved</em></p>
+  </td>
+  <td>
+  <p><em>neglected; unwanted</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Expedition (n)</em></p>
+  </td>
+  <td>
+  <p><em>অভিযান</em><em>, </em><em>অভিযানমূলক</em> <em>ভ্রমণ</em></p>
+  </td>
+  <td>
+  <p><em>journey; excursion</em></p>
+  </td>
+  <td>
+  <p><em>retreat; withdrawal</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Perseverance (n)</em></p>
+  </td>
+  <td>
+  <p><em>অধ্যবসায়</em><em>, </em><em>ধৈর্য</em></p>
+  </td>
+  <td>
+  <p><em>persistence; dedication</em></p>
+  </td>
+  <td>
+  <p><em>laziness; inconsistency</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Institutional (adj)</em></p>
+  </td>
+  <td>
+  <p><em>প্রাতিষ্ঠানিক</em></p>
+  </td>
+  <td>
+  <p><em>organized; structured</em></p>
+  </td>
+  <td>
+  <p><em>informal; unstructured</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Trekking (n)</em></p>
+  </td>
+  <td>
+  <p><em>পর্বতারোহণ</em><em>, </em><em>দীর্ঘ</em> <em>পথচলা</em></p>
+  </td>
+  <td>
+  <p><em>hiking; journeying</em></p>
+  </td>
+  <td>
+  <p><em>resting; staying</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Summit (v)</em></p>
+  </td>
+  <td>
+  <p><em>চূড়ায়</em> <em>আরোহণ</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>climb; reach </em></p>
+  <p><em>the top</em></p>
+  </td>
+  <td>
+  <p><em>descend; fall</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Encouragement (n)</em></p>
+  </td>
+  <td>
+  <p><em>উৎসাহ</em><em>, </em><em>অনুপ্রেরণা</em></p>
+  </td>
+  <td>
+  <p><em>motivation; support</em></p>
+  </td>
+  <td>
+  <p><em>discouragement; demotivation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Ambassador (n)</em></p>
+  </td>
+  <td>
+  <p><em>দূত</em><em>, </em><em>প্রতিনিধি</em></p>
+  </td>
+  <td>
+  <p><em>representative; envoy</em></p>
+  </td>
+  <td>
+  <p><em>opponent; adversary</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Opportunity (n)</em></p>
+  </td>
+  <td>
+  <p><em>সুযোগ</em><em>, </em><em>সম্ভাবনা</em></p>
+  </td>
+  <td>
+  <p><em>chance; possibility</em></p>
+  </td>
+  <td>
+  <p><em>obstacle; barrier</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Dedication (n)</em></p>
+  </td>
+  <td>
+  <p><em>নিষ্ঠা</em><em>, </em><em>অঙ্গীকার</em></p>
+  </td>
+  <td>
+  <p><em>commitment; devotion</em></p>
+  </td>
+  <td>
+  <p><em>apathy; indifference</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Challenge (n)</em></p>
+  </td>
+  <td>
+  <p><em>চ্যালেঞ্জ</em><em>, </em><em>কঠিন</em> <em>কাজ</em></p>
+  </td>
+  <td>
+  <p><em>difficulty; obstacle</em></p>
+  </td>
+  <td>
+  <p><em>ease; simplicity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Message (n)</em></p>
+  </td>
+  <td>
+  <p><em>বার্তা</em><em>, </em><em>সংক্ষিপ্ত</em> <em>বক্তব্য</em></p>
+  </td>
+  <td>
+  <p><em>communication; statement</em></p>
+  </td>
+  <td>
+  <p><em>silence; secrecy</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Equality (n)</em></p>
+  </td>
+  <td>
+  <p><em>সমতা</em><em>, </em><em>সাম্য</em></p>
+  </td>
+  <td>
+  <p><em>fairness; balance</em></p>
+  </td>
+  <td>
+  <p><em>inequality; imbalance</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Icon (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রতীক</em><em>, </em><em>কিংবদন্তি</em></p>
+  </td>
+  <td width="90">
+  <p><em>symbol; </em></p>
+  <p><em>legend; </em></p>
+  <p><em>idol</em></p>
+  </td>
+  <td>
+  <p><em>unknown; </em></p>
+  <p><em>unremarkable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Tradition (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ঐতিহ্য</em></p>
+  </td>
+  <td width="90">
+  <p><em>custom; </em></p>
+  <p><em>heritage</em></p>
+  </td>
+  <td>
+  <p><em>modernity;</em></p>
+  <p><em> innovation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Philosopher (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>দার্শনিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>thinker; </em></p>
+  <p><em>sage</em></p>
+  </td>
+  <td>
+  <p><em>fool; </em></p>
+  <p><em>ignoramus</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Preach (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রচার</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>advocate; </em></p>
+  <p><em>teach</em></p>
+  </td>
+  <td>
+  <p><em>conceal; </em></p>
+  <p><em>suppress</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Tolerance (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>সহনশীলতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>acceptance; </em></p>
+  <p><em>patience</em></p>
+  </td>
+  <td>
+  <p><em>intolerance; </em></p>
+  <p><em>prejudice</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Creed (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ধর্মমত</em></p>
+  </td>
+  <td width="90">
+  <p><em>belief; </em></p>
+  <p><em>doctrine</em></p>
+  </td>
+  <td>
+  <p><em>atheism; </em></p>
+  <p><em>disbelief</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Profound (adj)</em></p>
+  </td>
+  <td width="70">
+  <p><em>গভীর</em><em>, </em><em>তাত্ত্বিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>deep; </em></p>
+  <p><em>insightful</em></p>
+  </td>
+  <td>
+  <p><em>shallow; </em></p>
+  <p><em>superficial</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Mystical (adj)</em></p>
+  </td>
+  <td width="70">
+  <p><em>রহস্যময়</em><em>, </em></p>
+  <p><em>আধ্যাত্মিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>spiritual; </em></p>
+  <p><em>mysterious</em></p>
+  </td>
+  <td>
+  <p><em>logical; clear</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Devotion (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ভক্তি</em><em>, </em><em>একাগ্রতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>dedication; </em></p>
+  <p><em>commitment</em></p>
+  </td>
+  <td>
+  <p><em>apathy; </em></p>
+  <p><em>indifference</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Asceticism (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>সংযম</em><em>, </em></p>
+  <p><em>তপস্যা</em></p>
+  </td>
+  <td width="90">
+  <p><em>self-discipline; </em></p>
+  <p><em>austerity</em></p>
+  </td>
+  <td>
+  <p><em>indulgence; </em></p>
+  <p><em>excess</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Disciples (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>শিষ্য</em><em>, </em></p>
+  <p><em>অনুসারী</em></p>
+  </td>
+  <td width="90">
+  <p><em>followers; </em></p>
+  <p><em>devotees</em></p>
+  </td>
+  <td>
+  <p><em>opponents; </em></p>
+  <p><em>nonbelievers</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Salvation (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>মুক্তি</em><em>, </em><em>পরিত্রাণ</em></p>
+  </td>
+  <td width="90">
+  <p><em>liberation; </em></p>
+  <p><em>redemption</em></p>
+  </td>
+  <td>
+  <p><em>damnation; </em></p>
+  <p><em>condemnation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Accompaniment </em></p>
+  <p><em>(n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>সঙ্গীত</em></p>
+  <p><em>সহযোগিতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>support; </em></p>
+  <p><em>complement</em></p>
+  </td>
+  <td>
+  <p><em>isolation; </em></p>
+  <p><em>separation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fame (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>খ্যাতি</em></p>
+  </td>
+  <td width="90">
+  <p><em>renown; </em></p>
+  <p><em>reputation</em></p>
+  </td>
+  <td>
+  <p><em>obscurity; </em></p>
+  <p><em>anonymity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Admire (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রশংসা</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>appreciate; </em></p>
+  <p><em>respect</em></p>
+  </td>
+  <td>
+  <p><em>despise; </em></p>
+  <p><em>criticize</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Influence (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রভাব</em> <em>ফেলা</em></p>
+  </td>
+  <td width="90">
+  <p><em>impact; </em></p>
+  <p><em>affect</em></p>
+  </td>
+  <td>
+  <p><em>ignore; </em></p>
+  <p><em>neglect</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Attainment (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>অর্জন</em></p>
+  </td>
+  <td width="90">
+  <p><em>achievement; </em></p>
+  <p><em>accomplish</em></p>
+  <p><em>ment</em></p>
+  </td>
+  <td>
+  <p><em>failure; loss</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Meditation (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ধ্যান</em><em>, </em><em>মনন</em></p>
+  </td>
+  <td width="90">
+  <p><em>Contempla</em></p>
+  <p><em>tion; </em></p>
+  <p><em>reflection</em></p>
+  </td>
+  <td>
+  <p><em>distraction; </em></p>
+  <p><em>negligence</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Heritage (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ঐতিহ্য</em></p>
+  </td>
+  <td width="90">
+  <p><em>legacy; </em></p>
+  <p><em>inheritance</em></p>
+  </td>
+  <td>
+  <p><em>loss; </em></p>
+  <p><em>destruction</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Spread (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ছড়িয়ে</em> <em>পড়া</em></p>
+  </td>
+  <td width="90">
+  <p><em>expand; </em></p>
+  <p><em>distribute</em></p>
+  </td>
+  <td>
+  <p><em>restrict; </em></p>
+  <p><em>contain</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Icon (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রতীক</em><em>, </em><em>কিংবদন্তি</em></p>
+  </td>
+  <td width="90">
+  <p><em>symbol; </em></p>
+  <p><em>legend; </em></p>
+  <p><em>idol</em></p>
+  </td>
+  <td>
+  <p><em>unknown; </em></p>
+  <p><em>unremarkable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Tradition (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ঐতিহ্য</em></p>
+  </td>
+  <td width="90">
+  <p><em>custom; </em></p>
+  <p><em>heritage</em></p>
+  </td>
+  <td>
+  <p><em>modernity;</em></p>
+  <p><em> innovation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Philosopher (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>দার্শনিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>thinker; </em></p>
+  <p><em>sage</em></p>
+  </td>
+  <td>
+  <p><em>fool; </em></p>
+  <p><em>ignoramus</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Preach (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রচার</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>advocate; </em></p>
+  <p><em>teach</em></p>
+  </td>
+  <td>
+  <p><em>conceal; </em></p>
+  <p><em>suppress</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Tolerance (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>সহনশীলতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>acceptance; </em></p>
+  <p><em>patience</em></p>
+  </td>
+  <td>
+  <p><em>intolerance; </em></p>
+  <p><em>prejudice</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Creed (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ধর্মমত</em></p>
+  </td>
+  <td width="90">
+  <p><em>belief; </em></p>
+  <p><em>doctrine</em></p>
+  </td>
+  <td>
+  <p><em>atheism; </em></p>
+  <p><em>disbelief</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Profound (adj)</em></p>
+  </td>
+  <td width="70">
+  <p><em>গভীর</em><em>, </em><em>তাত্ত্বিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>deep; </em></p>
+  <p><em>insightful</em></p>
+  </td>
+  <td>
+  <p><em>shallow; </em></p>
+  <p><em>superficial</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Mystical (adj)</em></p>
+  </td>
+  <td width="70">
+  <p><em>রহস্যময়</em><em>, </em></p>
+  <p><em>আধ্যাত্মিক</em></p>
+  </td>
+  <td width="90">
+  <p><em>spiritual; </em></p>
+  <p><em>mysterious</em></p>
+  </td>
+  <td>
+  <p><em>logical; clear</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Devotion (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ভক্তি</em><em>, </em><em>একাগ্রতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>dedication; </em></p>
+  <p><em>commitment</em></p>
+  </td>
+  <td>
+  <p><em>apathy; </em></p>
+  <p><em>indifference</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Asceticism (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>সংযম</em><em>, </em></p>
+  <p><em>তপস্যা</em></p>
+  </td>
+  <td width="90">
+  <p><em>self-discipline; </em></p>
+  <p><em>austerity</em></p>
+  </td>
+  <td>
+  <p><em>indulgence; </em></p>
+  <p><em>excess</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Disciples (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>শিষ্য</em><em>, </em></p>
+  <p><em>অনুসারী</em></p>
+  </td>
+  <td width="90">
+  <p><em>followers; </em></p>
+  <p><em>devotees</em></p>
+  </td>
+  <td>
+  <p><em>opponents; </em></p>
+  <p><em>nonbelievers</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Salvation (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>মুক্তি</em><em>, </em><em>পরিত্রাণ</em></p>
+  </td>
+  <td width="90">
+  <p><em>liberation; </em></p>
+  <p><em>redemption</em></p>
+  </td>
+  <td>
+  <p><em>damnation; </em></p>
+  <p><em>condemnation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Accompaniment </em></p>
+  <p><em>(n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>সঙ্গীত</em></p>
+  <p><em>সহযোগিতা</em></p>
+  </td>
+  <td width="90">
+  <p><em>support; </em></p>
+  <p><em>complement</em></p>
+  </td>
+  <td>
+  <p><em>isolation; </em></p>
+  <p><em>separation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fame (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>খ্যাতি</em></p>
+  </td>
+  <td width="90">
+  <p><em>renown; </em></p>
+  <p><em>reputation</em></p>
+  </td>
+  <td>
+  <p><em>obscurity; </em></p>
+  <p><em>anonymity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Admire (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রশংসা</em> <em>করা</em></p>
+  </td>
+  <td width="90">
+  <p><em>appreciate; </em></p>
+  <p><em>respect</em></p>
+  </td>
+  <td>
+  <p><em>despise; </em></p>
+  <p><em>criticize</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Influence (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>প্রভাব</em> <em>ফেলা</em></p>
+  </td>
+  <td width="90">
+  <p><em>impact; </em></p>
+  <p><em>affect</em></p>
+  </td>
+  <td>
+  <p><em>ignore; </em></p>
+  <p><em>neglect</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Attainment (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>অর্জন</em></p>
+  </td>
+  <td width="90">
+  <p><em>achievement; </em></p>
+  <p><em>accomplish</em></p>
+  <p><em>ment</em></p>
+  </td>
+  <td>
+  <p><em>failure; loss</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Meditation (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ধ্যান</em><em>, </em><em>মনন</em></p>
+  </td>
+  <td width="90">
+  <p><em>Contempla</em></p>
+  <p><em>tion; </em></p>
+  <p><em>reflection</em></p>
+  </td>
+  <td>
+  <p><em>distraction; </em></p>
+  <p><em>negligence</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Heritage (n)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ঐতিহ্য</em></p>
+  </td>
+  <td width="90">
+  <p><em>legacy; </em></p>
+  <p><em>inheritance</em></p>
+  </td>
+  <td>
+  <p><em>loss; </em></p>
+  <p><em>destruction</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Spread (v)</em></p>
+  </td>
+  <td width="70">
+  <p><em>ছড়িয়ে</em> <em>পড়া</em></p>
+  </td>
+  <td width="90">
+  <p><em>expand; </em></p>
+  <p><em>distribute</em></p>
+  </td>
+  <td>
+  <p><em>restrict; </em></p>
+  <p><em>contain</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Cage</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>খাঁচা</em></p>
+  </td>
+  <td>
+  <p><em>Enclosure, pen</em></p>
+  </td>
+  <td>
+  <p><em>Open space</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Rewarded</em></p>
+  </td>
+  <td>
+  <p><em>Verb</em></p>
+  </td>
+  <td>
+  <p><em>পুরস্কৃত</em></p>
+  </td>
+  <td>
+  <p><em>Honored, compensated</em></p>
+  </td>
+  <td>
+  <p><em>Punished</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Merrily</em></p>
+  </td>
+  <td>
+  <p><em>Adverb</em></p>
+  </td>
+  <td>
+  <p><em>আনন্দময়ভাবে</em></p>
+  </td>
+  <td>
+  <p><em>Cheerfully, happily</em></p>
+  </td>
+  <td>
+  <p><em>Sadly</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Goldsmith</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>স্বর্ণকার</em></p>
+  </td>
+  <td>
+  <p><em>Jeweler</em></p>
+  </td>
+  <td>
+  <p><em>Customer</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Exquisite</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>চমৎকার</em></p>
+  </td>
+  <td>
+  <p><em>Beautiful, delicate</em></p>
+  </td>
+  <td>
+  <p><em>Ugly, crude</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Cheerfully</em></p>
+  </td>
+  <td>
+  <p><em>Adverb</em></p>
+  </td>
+  <td>
+  <p><em>আনন্দের</em> <em>সঙ্গে</em></p>
+  </td>
+  <td>
+  <p><em>Joyfully, happily</em></p>
+  </td>
+  <td>
+  <p><em>Sadly</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Pundit</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>পণ্ডিত</em></p>
+  </td>
+  <td>
+  <p><em>Scholar, expert</em></p>
+  </td>
+  <td>
+  <p><em>Amateur</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Snuff</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>স্নাফ</em><em> (</em><em>ধূমপানযোগ্য</em> <em>ধূলি</em><em>)</em></p>
+  </td>
+  <td>
+  <p><em>Powder</em></p>
+  </td>
+  <td>
+  <p><em>&#8211;</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Mound</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>ঢিবি</em></p>
+  </td>
+  <td>
+  <p><em>Heap, pile</em></p>
+  </td>
+  <td>
+  <p><em>Flat</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Bravo</em></p>
+  </td>
+  <td>
+  <p><em>Interjection</em></p>
+  </td>
+  <td>
+  <p><em>বাহ</em><em>!</em></p>
+  </td>
+  <td>
+  <p><em>Well done, applause</em></p>
+  </td>
+  <td>
+  <p><em>Boo</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Descendants</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>উত্তরসূরি</em></p>
+  </td>
+  <td>
+  <p><em>Offspring, heirs</em></p>
+  </td>
+  <td>
+  <p><em>Ancestors</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Surveillance</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>নজরদারি</em></p>
+  </td>
+  <td>
+  <p><em>Monitoring, observation</em></p>
+  </td>
+  <td>
+  <p><em>Neglect</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Repairs</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>মেরামত</em></p>
+  </td>
+  <td>
+  <p><em>Fixing, maintenance</em></p>
+  </td>
+  <td>
+  <p><em>Damage</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Polishing</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>পালিশ</em></p>
+  </td>
+  <td>
+  <p><em>Buffing, shining</em></p>
+  </td>
+  <td>
+  <p><em>Tarnishing</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Luxury</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>বিলাসিতা</em></p>
+  </td>
+  <td>
+  <p><em>Comfort, opulence</em></p>
+  </td>
+  <td>
+  <p><em>Poverty</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Happiness</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>সুখ</em></p>
+  </td>
+  <td>
+  <p><em>Joy, contentment</em></p>
+  </td>
+  <td>
+  <p><em>Misery</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fault-finders</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>খুঁতখুঁতিয়া</em></p>
+  </td>
+  <td>
+  <p><em>Critics, complainers</em></p>
+  </td>
+  <td>
+  <p><em>Praisers</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Crystal-clear</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>পরিষ্কার</em></p>
+  </td>
+  <td>
+  <p><em>Obvious, transparent</em></p>
+  </td>
+  <td>
+  <p><em>Vague</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Necklace</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>হার</em></p>
+  </td>
+  <td>
+  <p><em>Chain, ornament</em></p>
+  </td>
+  <td>
+  <p><em>Bracelet</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Entourage</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>সঙ্গীসমূহ</em></p>
+  </td>
+  <td>
+  <p><em>Retinue, company</em></p>
+  </td>
+  <td>
+  <p><em>Solitude</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Chorus</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>সুরবাহ</em></p>
+  </td>
+  <td>
+  <p><em>Ensemble, group</em></p>
+  </td>
+  <td>
+  <p><em>Solo</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Hymns</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>স্তোত্র</em></p>
+  </td>
+  <td>
+  <p><em>Chants, psalms</em></p>
+  </td>
+  <td>
+  <p><em>Secular songs</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Overwhelming</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>অত্যধিক</em></p>
+  </td>
+  <td>
+  <p><em>Powerful, immense</em></p>
+  </td>
+  <td>
+  <p><em>Weak, minor</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Faultless</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>নিখুঁত</em></p>
+  </td>
+  <td>
+  <p><em>Perfect, flawless</em></p>
+  </td>
+  <td>
+  <p><em>Defective</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Audacity</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>দুঃসাহস</em></p>
+  </td>
+  <td>
+  <p><em>Boldness, daring</em></p>
+  </td>
+  <td>
+  <p><em>Timidity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Spectacular</em></p>
+  </td>
+  <td>
+  <p><em>Adjective</em></p>
+  </td>
+  <td>
+  <p><em>চমকপ্রদ</em></p>
+  </td>
+  <td>
+  <p><em>Stunning, marvelous</em></p>
+  </td>
+  <td>
+  <p><em>Ordinary</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Alertness</em></p>
+  </td>
+  <td>
+  <p><em>Noun</em></p>
+  </td>
+  <td>
+  <p><em>সতর্কতা</em></p>
+  </td>
+  <td>
+  <p><em>Vigilance, attentiveness</em></p>
+  </td>
+  <td>
+  <p><em>Carelessness</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Orphanage (n)</em></p>
+  </td>
+  <td>
+  <p><em>অনাথাশ্রম</em></p>
+  </td>
+  <td>
+  <p><em>children&#8217;s home; asylum</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Isolation (n)</em></p>
+  </td>
+  <td>
+  <p><em>বিচ্ছিন্নতা</em></p>
+  </td>
+  <td>
+  <p><em>solitude; seclusion</em></p>
+  </td>
+  <td>
+  <p><em>companionship; inclusion</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Malaria (n)</em></p>
+  </td>
+  <td>
+  <p><em>ম্যালেরিয়া</em></p>
+  </td>
+  <td>
+  <p><em>a mosquito-borne disease</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Homesick (adj)</em></p>
+  </td>
+  <td>
+  <p><em>গৃহকাতর</em></p>
+  </td>
+  <td>
+  <p><em>longing for home</em></p>
+  </td>
+  <td>
+  <p><em>content; settled</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Flaming (adj)</em></p>
+  </td>
+  <td>
+  <p><em>দীপ্তিময়</em><em>, </em><em>জ্বলন্ত</em></p>
+  </td>
+  <td>
+  <p><em>blazing; burning</em></p>
+  </td>
+  <td>
+  <p><em>dull; extinguished</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Typewriter (n)</em></p>
+  </td>
+  <td>
+  <p><em>টাইপরাইটার</em></p>
+  </td>
+  <td>
+  <p><em>writing machine</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Startled (adj)</em></p>
+  </td>
+  <td>
+  <p><em>চমকে</em> <em>ওঠা</em></p>
+  </td>
+  <td>
+  <p><em>surprised; shocked</em></p>
+  </td>
+  <td>
+  <p><em>calm; unbothered</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Undersized (adj)</em></p>
+  </td>
+  <td>
+  <p><em>আকারে</em> <em>ছোট</em></p>
+  </td>
+  <td>
+  <p><em>small; tiny</em></p>
+  </td>
+  <td>
+  <p><em>large; oversized</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Overalls (n)</em></p>
+  </td>
+  <td>
+  <p><em>ওভারঅল</em><em> (</em><em>একধরনের</em> <em>পোশাক</em><em>)</em></p>
+  </td>
+  <td>
+  <p><em>work clothes; dungarees</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Rhythmic (adj)</em></p>
+  </td>
+  <td>
+  <p><em>ছন্দময়</em></p>
+  </td>
+  <td>
+  <p><em>steady; melodic</em></p>
+  </td>
+  <td>
+  <p><em>irregular; erratic</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Astonishing (adj)</em></p>
+  </td>
+  <td>
+  <p><em>আশ্চর্যজনক</em></p>
+  </td>
+  <td>
+  <p><em>amazing; incredible</em></p>
+  </td>
+  <td>
+  <p><em>ordinary; unimpressive</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Integrity (n)</em></p>
+  </td>
+  <td>
+  <p><em>সততা</em><em>, </em><em>নৈতিকতা</em></p>
+  </td>
+  <td>
+  <p><em>honesty; morality</em></p>
+  </td>
+  <td>
+  <p><em>dishonesty; corruption</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Grave (adj)</em></p>
+  </td>
+  <td>
+  <p><em>গম্ভীর</em><em>, </em><em>গুরুতর</em></p>
+  </td>
+  <td>
+  <p><em>serious; solemn</em></p>
+  </td>
+  <td>
+  <p><em>lighthearted; trivial</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Independence (n)</em></p>
+  </td>
+  <td>
+  <p><em>স্বাধীনতা</em></p>
+  </td>
+  <td>
+  <p><em>self-reliance; autonomy</em></p>
+  </td>
+  <td>
+  <p><em>dependence; subjugation</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Texture (n)</em></p>
+  </td>
+  <td>
+  <p><em>গঠন</em><em>, </em><em>প্রকৃতি</em></p>
+  </td>
+  <td>
+  <p><em>composition; feel</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Kindling (n)</em></p>
+  </td>
+  <td>
+  <p><em>জ্বালানি</em> <em>কাঠ</em></p>
+  </td>
+  <td>
+  <p><em>firewood; tinder</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Stack (n)</em></p>
+  </td>
+  <td>
+  <p><em>স্তূপ</em><em>, </em><em>গাদা</em></p>
+  </td>
+  <td>
+  <p><em>pile; heap</em></p>
+  </td>
+  <td>
+  <p><em>scattered items</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Courage (n)</em></p>
+  </td>
+  <td>
+  <p><em>সাহস</em></p>
+  </td>
+  <td>
+  <p><em>bravery; valor</em></p>
+  </td>
+  <td>
+  <p><em>fear; cowardice</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Accuracy (n)</em></p>
+  </td>
+  <td>
+  <p><em>যথার্থতা</em><em>, </em><em>নির্ভুলতা</em></p>
+  </td>
+  <td>
+  <p><em>precision; correctness</em></p>
+  </td>
+  <td>
+  <p><em>inaccuracy; error</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Fault (n)</em></p>
+  </td>
+  <td>
+  <p><em>দোষ</em><em>, </em><em>ভুল</em></p>
+  </td>
+  <td>
+  <p><em>flaw; mistake</em></p>
+  </td>
+  <td>
+  <p><em>perfection; correctness</em></p>
+  </td>
+  </tr><tr>
+  <td>
+  <p><em>Illuminate (v)</em></p>
+  </td>
+  <td>
+  <p><em>আলোকিত</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>enlighten; clarify</em></p>
+  </td>
+  <td>
+  <p><em>darken; obscure</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Inspire (v)</em></p>
+  </td>
+  <td>
+  <p><em>অনুপ্রাণিত</em> <em>করা</em></p>
+  </td>
+  <td>
+  <p><em>motivate; encourage</em></p>
+  </td>
+  <td>
+  <p><em>discourage; demotivate</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Engagement (n)</em></p>
+  </td>
+  <td>
+  <p><em>সম্পৃক্ততা</em></p>
+  </td>
+  <td>
+  <p><em>involvement; participation</em></p>
+  </td>
+  <td>
+  <p><em>detachment; disengagement</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Civic (adj)</em></p>
+  </td>
+  <td>
+  <p><em>নাগরিক</em> <em>সংক্রান্ত</em></p>
+  </td>
+  <td>
+  <p><em>public; communal</em></p>
+  </td>
+  <td>
+  <p><em>private; individual</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Community (n)</em></p>
+  </td>
+  <td>
+  <p><em>সমাজ</em><em>, </em><em>সম্প্রদায়</em></p>
+  </td>
+  <td>
+  <p><em>society; group</em></p>
+  </td>
+  <td>
+  <p><em>isolation; individualism</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Motivation (n)</em></p>
+  </td>
+  <td>
+  <p><em>প্রেরণা</em></p>
+  </td>
+  <td>
+  <p><em>drive; enthusiasm</em></p>
+  </td>
+  <td>
+  <p><em>apathy; indifference</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Wellbeing (n)</em></p>
+  </td>
+  <td>
+  <p><em>কল্যাণ</em><em>, </em><em>মঙ্গল</em></p>
+  </td>
+  <td>
+  <p><em>welfare; health</em></p>
+  </td>
+  <td>
+  <p><em>distress; suffering</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Discrimination (n)</em></p>
+  </td>
+  <td>
+  <p><em>বৈষম্য</em></p>
+  </td>
+  <td>
+  <p><em>prejudice; bias</em></p>
+  </td>
+  <td>
+  <p><em>fairness; equality</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Protest (v/n)</em></p>
+  </td>
+  <td>
+  <p><em>প্রতিবাদ</em> <em>করা</em><em>/</em><em>প্রতিবাদ</em></p>
+  </td>
+  <td>
+  <p><em>object; demonstration</em></p>
+  </td>
+  <td>
+  <p><em>accept; approval</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Petition (n)</em></p>
+  </td>
+  <td>
+  <p><em>আবেদন</em><em>, </em><em>দরখাস্ত</em></p>
+  </td>
+  <td>
+  <p><em>request; appeal</em></p>
+  </td>
+  <td>
+  <p><em>command; order</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Municipality (n)</em></p>
+  </td>
+  <td>
+  <p><em>পৌরসভা</em></p>
+  </td>
+  <td>
+  <p><em>local government; town council</em></p>
+  </td>
+  <td>
+  <p><em>—</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Volunteerism (n)</em></p>
+  </td>
+  <td>
+  <p><em>স্বেচ্ছাসেবামূলক</em> <em>কার্যক্রম</em></p>
+  </td>
+  <td>
+  <p><em>altruism; service</em></p>
+  </td>
+  <td>
+  <p><em>obligation; duty</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Implementation (n)</em></p>
+  </td>
+  <td>
+  <p><em>বাস্তবায়ন</em></p>
+  </td>
+  <td>
+  <p><em>execution; application</em></p>
+  </td>
+  <td>
+  <p><em>neglect; abandonment</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Strategy (n)</em></p>
+  </td>
+  <td>
+  <p><em>কৌশল</em></p>
+  </td>
+  <td>
+  <p><em>plan; tactic</em></p>
+  </td>
+  <td>
+  <p><em>improvisation; spontaneity</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td>
+  <p><em>Operational (adj)</em></p>
+  </td>
+  <td>
+  <p><em>কার্যকরী</em><em>, </em><em>পরিচালনাসংক্রান্ত</em></p>
+  </td>
+  <td>
+  <p><em>functional; practical</em></p>
+  </td>
+  <td>
+  <p><em>dysfunctional; ineffective</em></p>
+  </td>
+  </tr><tr>
+  <td width="117">
+  <p><em>Expression (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>প্রকাশ</em><em>, </em><em>অভিব্যক্তি</em></p>
+  </td>
+  <td width="95">
+  <p><em>manifestation; portrayal</em></p>
+  </td>
+  <td width="96">
+  <p><em>suppression; concealment</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Evoke (v)</em></p>
+  </td>
+  <td width="77">
+  <p><em>উদ্রেক</em> <em>করা</em><em>, </em><em>জাগানো</em></p>
+  </td>
+  <td width="95">
+  <p><em>provoke; stimulate</em></p>
+  </td>
+  <td width="96">
+  <p><em>suppress; ignore</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Aesthetic (adj)</em></p>
+  </td>
+  <td width="77">
+  <p><em>নান্দনিক</em></p>
+  </td>
+  <td width="95">
+  <p><em>artistic; beautiful</em></p>
+  </td>
+  <td width="96">
+  <p><em>unattractive; displeasing</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Commentary (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>ভাষ্য</em><em>, </em><em>বিশ্লেষণ</em></p>
+  </td>
+  <td width="95">
+  <p><em>explanation; critique</em></p>
+  </td>
+  <td width="96">
+  <p><em>silence; neglect</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Anguish (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>যন্ত্রণা</em><em>, </em><em>বেদনা</em></p>
+  </td>
+  <td width="95">
+  <p><em>agony; suffering</em></p>
+  </td>
+  <td width="96">
+  <p><em>comfort; relief</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Profound (adj)</em></p>
+  </td>
+  <td width="77">
+  <p><em>গভীর</em><em>, </em><em>তীব্র</em></p>
+  </td>
+  <td width="95">
+  <p><em>deep; intense</em></p>
+  </td>
+  <td width="96">
+  <p><em>superficial; shallow</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Sketch (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>স্কেচ</em><em>, </em><em>খসড়া</em></p>
+  </td>
+  <td width="95">
+  <p><em>drawing; outline</em></p>
+  </td>
+  <td width="96">
+  <p><em>finished work</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Haunting (adj)</em></p>
+  </td>
+  <td width="77">
+  <p><em>মর্মস্পর্শী</em><em>, </em><em>মনোমুগ্ধকর</em></p>
+  </td>
+  <td width="95">
+  <p><em>poignant; unforgettable</em></p>
+  </td>
+  <td width="96">
+  <p><em>forgettable; unremarkable</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Spectacular (adj)</em></p>
+  </td>
+  <td width="77">
+  <p><em>চিত্তাকর্ষক</em><em>, </em><em>দুর্দান্ত</em></p>
+  </td>
+  <td width="95">
+  <p><em>impressive; stunning</em></p>
+  </td>
+  <td width="96">
+  <p><em>dull; unimpressive</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Contemporary (adj)</em></p>
+  </td>
+  <td width="77">
+  <p><em>সমসাময়িক</em></p>
+  </td>
+  <td width="95">
+  <p><em>modern; present-day</em></p>
+  </td>
+  <td width="96">
+  <p><em>old-fashioned; outdated</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Inspiration (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>অনুপ্রেরণা</em></p>
+  </td>
+  <td width="95">
+  <p><em>motivation; stimulation</em></p>
+  </td>
+  <td width="96">
+  <p><em>discouragement; apathy</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Installation (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>স্থাপন</em><em>, </em><em>সংস্থাপন</em></p>
+  </td>
+  <td width="95">
+  <p><em>arrangement; exhibit</em></p>
+  </td>
+  <td width="96">
+  <p><em>removal; dismantling</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Insightful (adj)</em></p>
+  </td>
+  <td width="77">
+  <p><em>গভীর</em> <em>উপলব্ধিপূর্ণ</em></p>
+  </td>
+  <td width="95">
+  <p><em>perceptive; thoughtful</em></p>
+  </td>
+  <td width="96">
+  <p><em>ignorant; shallow</em></p>
+  </td>
+  </tr>
+  <tr>
+  <td width="117">
+  <p><em>Experimentation (n)</em></p>
+  </td>
+  <td width="77">
+  <p><em>পরীক্ষা</em><em>, </em><em>গবেষণা</em></p>
+  </td>
+  <td width="95">
+  <p><em>testing; innovation</em></p>
+  </td>
+  <td width="96">
+  <p><em>stagnation; routine</em></p>
+  </td>
+  </tr>
+  </tbody>
+  </table></b><br></p>
+<p class="fw-hero reveal"></p>
+<p class="fw-close reveal"></p>
+<p class="fw-sig reveal">&mdash; <em></em></p>
+</div>
+</div>
+</div>
+</section>
+<!-- ============ 2. FOREWORD ============ -->
+<section class="slide" data-section="Leve2 " data-sub="">
+<div class="slide-inner s-foreword">
+<div class="s-foreword-grid">
+<aside class="s-foreword-side">
+<div class="marker reveal"></div>
+<h2 class="reveal"> <em></em></h2>
+<div class="meta reveal"><br></div>
+</aside>
+<div class="s-foreword-body">
+<p class="fw-lede reveal"><b><br><br><br>
+ </b></p>
+<p class="fw-hero reveal"></p>
+<p class="fw-close reveal"></p>
+<p class="fw-sig reveal"><em></em></p>
+</div>
+</div>
+</div>
+</section>
+<!-- ============ 3 FOREWORD ============ -->
+<section class="slide" data-section="level 3" data-sub="">
+<div class="slide-inner s-foreword">
+<div class="s-foreword-grid">
+<aside class="s-foreword-side">
+<div class="marker reveal"></div>
+<h2 class="reveal"> <em></em></h2>
+<div class="meta reveal"><br></div>
+</aside>
+<div class="s-foreword-body">
+<p class="fw-lede reveal"><b><br><br><br>
+<br>
+ 
+ </b></p>
+<p class="fw-hero reveal"></p>
+<p class="fw-close reveal"></p>
+<p class="fw-sig reveal"><em></em></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- POPUP MENU -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="menu-panel" id="menuPanel" role="dialog" aria-label="Slide navigation">
+<div class="menu-header">
+  <h3> <em>All Pages</em></h3>
+  <div class="menu-meta"><span id="menuCurr"></span> <span id="menuTotal"></span></div>
+</div>
+<div class="menu-list" id="menuList"></div>
+<div class="menu-footer">
+  <span> <kbd></kbd> </span>
+  <span><kbd></kbd><kbd></kbd></span>
+</div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button id="prev" aria-label="Previous slide">&larr;</button>
+<button id="menuBtn" class="menu-btn" aria-label="Open slide menu"><span class="icon"><i></i><i></i><i></i></span></button>
+<div class="counter"><strong id="curr">01</strong> / <span id="total">09</span></div>
+<button id="next" aria-label="Next slide">&rarr;</button>
+</div>
+
+  <script>
+(function(){
+var slides=document.querySelectorAll('.slide');
+var currEl=document.getElementById('curr');
+var totalEl=document.getElementById('total');
+var menuCurrEl=document.getElementById('menuCurr');
+var menuTotalEl=document.getElementById('menuTotal');
+var sectionEl=document.getElementById('sectionName');
+var prevBtn=document.getElementById('prev');
+var nextBtn=document.getElementById('next');
+var menuBtn=document.getElementById('menuBtn');
+var menuOverlay=document.getElementById('menuOverlay');
+var menuPanel=document.getElementById('menuPanel');
+var menuList=document.getElementById('menuList');
+var idx=0,isAnimating=false,menuOpen=false;
+totalEl.textContent=String(slides.length).padStart(2,'0');
+menuTotalEl.textContent=String(slides.length).padStart(2,'0');
+
+/* Inject in-flow footer (mobile only) */
+slides.forEach(function(s){
+  var inner=s.querySelector('.slide-inner');
+  if(!inner)return;
+  var footer=document.createElement('div');
+  footer.className='slide-footer';
+  footer.innerHTML='<div class="sf-section"><span class="pip"></span><span></span></div>'+
+  '<span class="pip"></span><span>Ripan Academy</span></a>';
+  inner.appendChild(footer);
+});
+
+/* Build menu items */
+slides.forEach(function(s,i){
+  var item=document.createElement('div');
+  item.className='menu-item';
+  item.dataset.idx=i;
+  item.innerHTML='<span class="mi-num">'+String(i+1).padStart(2,'0')+'</span>'+
+    '<div style="flex:1"><div class="mi-label">'+s.dataset.section+'</div>'+
+    (s.dataset.sub?'<div class="mi-sub">'+s.dataset.sub+'</div>':'')+'</div>'+
+    '<span class="mi-arr">&rarr;</span>';
+  item.addEventListener('click',function(){go(i);closeMenu()});
+  menuList.appendChild(item);
+});
+var menuItems=menuList.querySelectorAll('.menu-item');
+function refreshMenuActive(){menuItems.forEach(function(el,i){el.classList.toggle('current',i===idx)})}
+refreshMenuActive();
+
+function go(t){
+  if(isAnimating||t===idx||t<0||t>=slides.length)return;
+  isAnimating=true;
+  var old=slides[idx],next=slides[t];
+  old.classList.add('exiting');
+  old.classList.remove('active');
+  setTimeout(function(){
+    next.classList.add('active');
+    next.scrollTop=0;
+    old.classList.remove('exiting');
+    idx=t;
+    var n=String(idx+1).padStart(2,'0');
+    currEl.textContent=n;
+    menuCurrEl.textContent=n;
+    sectionEl.textContent=next.dataset.section;
+    refreshMenuActive();
+    setTimeout(function(){isAnimating=false},900);
+  },350);
+}
+
+function openMenu(){menuOpen=true;menuOverlay.classList.add('open');menuPanel.classList.add('open');menuBtn.classList.add('open')}
+function closeMenu(){menuOpen=false;menuOverlay.classList.remove('open');menuPanel.classList.remove('open');menuBtn.classList.remove('open')}
+function toggleMenu(){menuOpen?closeMenu():openMenu()}
+
+prevBtn.addEventListener('click',function(){go(idx-1)});
+nextBtn.addEventListener('click',function(){go(idx+1)});
+menuBtn.addEventListener('click',toggleMenu);
+menuOverlay.addEventListener('click',closeMenu);
+
+/* Delegated handler for data-goto links */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-goto]');
+  if(!el)return;
+  e.preventDefault();
+  var n=parseInt(el.dataset.goto,10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length)go(n-1);
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&menuOpen){closeMenu();return}
+  if(menuOpen)return;
+  if(e.key==='ArrowRight')go(idx+1);
+  if(e.key==='ArrowLeft')go(idx-1);
+  if(e.key===' '){e.preventDefault();go(idx+1)}
+  if(e.key==='m'||e.key==='M')toggleMenu();
+  if(/^[1-9]$/.test(e.key))go(parseInt(e.key,10)-1);
+});
+
+/* Touch swipe */
+var tx=0,ty=0,scrolling=false;
+document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;scrolling=false},{passive:true});
+document.addEventListener('touchmove',function(e){
+  var dx=Math.abs(e.touches[0].clientX-tx);
+  var dy=Math.abs(e.touches[0].clientY-ty);
+  if(dy>dx)scrolling=true;
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(scrolling||menuOpen)return;
+  var dx=e.changedTouches[0].clientX-tx;
+  var dy=Math.abs(e.changedTouches[0].clientY-ty);
+  if(Math.abs(dx)>60&&dy<40)dx<0?go(idx+1):go(idx-1);
+},{passive:true});
+})();
+</script>
+</body>
+</html></body>
+</html>eword">
+<div class="s-foreword-grid">
+<aside class="s-foreword-side">
+<div class="marker reveal"></div>
+<h2 class="reveal"> <em>Riders to the sea </em></h2>
+<div class="meta reveal"><br></div>
+</aside>
+<div class="s-foreword-body">
+<p class="fw-lede reveal"><b> Riders to the sea :<br><br><br>
+1) Fatalism<br>
+2) Life and death<br>
+3) Endurance<br>
+4) Struggle of life<br>
+5) Faith in religious believe vs reality<br>
+6) Helplessness to fate<br>
+7) Fate vs reality<br>
+8) Power of nature<br>
+9) Acceptance of loss<br>
+10) Livelihood of Irish rural people <br>
+11) Feminism <br>
+12) Cycle of death<br>
+13) Superstition<br>
+14) Spirituality and morality<br>
+15) Blending of the real and super natural elements<br>
+16) Use of dramatic irony to build up tragic climax<br>
+17) Proletarian<br>
+18) Universality <br>
+19) prominent role of the sea<br>
+20) Visionary Images<br>
+21) Omen  </b></p>
+<p class="fw-hero reveal"></p>
+<p class="fw-close reveal"></p>
+<p class="fw-sig reveal"><em></em></p>
+</div>
+</div>
+</div>
+</section>
+<!-- POPUP MENU -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="menu-panel" id="menuPanel" role="dialog" aria-label="Slide navigation">
+<div class="menu-header">
+  <h3> <em>All Pages</em></h3>
+  <div class="menu-meta"><span id="menuCurr"></span> <span id="menuTotal"></span></div>
+</div>
+<div class="menu-list" id="menuList"></div>
+<div class="menu-footer">
+  <span> <kbd></kbd> </span>
+  <span><kbd></kbd><kbd></kbd></span>
+</div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button id="prev" aria-label="Previous slide">&larr;</button>
+<button id="menuBtn" class="menu-btn" aria-label="Open slide menu"><span class="icon"><i></i><i></i><i></i></span></button>
+<div class="counter"><strong id="curr">01</strong> / <span id="total">09</span></div>
+<button id="next" aria-label="Next slide">&rarr;</button>
+</div>
+
+  <script>
+(function(){
+var slides=document.querySelectorAll('.slide');
+var currEl=document.getElementById('curr');
+var totalEl=document.getElementById('total');
+var menuCurrEl=document.getElementById('menuCurr');
+var menuTotalEl=document.getElementById('menuTotal');
+var sectionEl=document.getElementById('sectionName');
+var prevBtn=document.getElementById('prev');
+var nextBtn=document.getElementById('next');
+var menuBtn=document.getElementById('menuBtn');
+var menuOverlay=document.getElementById('menuOverlay');
+var menuPanel=document.getElementById('menuPanel');
+var menuList=document.getElementById('menuList');
+var idx=0,isAnimating=false,menuOpen=false;
+totalEl.textContent=String(slides.length).padStart(2,'0');
+menuTotalEl.textContent=String(slides.length).padStart(2,'0');
+
+/* Inject in-flow footer (mobile only) */
+slides.forEach(function(s){
+  var inner=s.querySelector('.slide-inner');
+  if(!inner)return;
+  var footer=document.createElement('div');
+  footer.className='slide-footer';
+  footer.innerHTML='<div class="sf-section"><span class="pip"></span><span></span></div>'+
+  '<span class="pip"></span><span>Ripan Academy</span></a>';
+  inner.appendChild(footer);
+});
+
+/* Build menu items */
+slides.forEach(function(s,i){
+  var item=document.createElement('div');
+  item.className='menu-item';
+  item.dataset.idx=i;
+  item.innerHTML='<span class="mi-num">'+String(i+1).padStart(2,'0')+'</span>'+
+    '<div style="flex:1"><div class="mi-label">'+s.dataset.section+'</div>'+
+    (s.dataset.sub?'<div class="mi-sub">'+s.dataset.sub+'</div>':'')+'</div>'+
+    '<span class="mi-arr">&rarr;</span>';
+  item.addEventListener('click',function(){go(i);closeMenu()});
+  menuList.appendChild(item);
+});
+var menuItems=menuList.querySelectorAll('.menu-item');
+function refreshMenuActive(){menuItems.forEach(function(el,i){el.classList.toggle('current',i===idx)})}
+refreshMenuActive();
+
+function go(t){
+  if(isAnimating||t===idx||t<0||t>=slides.length)return;
+  isAnimating=true;
+  var old=slides[idx],next=slides[t];
+  old.classList.add('exiting');
+  old.classList.remove('active');
+  setTimeout(function(){
+    next.classList.add('active');
+    next.scrollTop=0;
+    old.classList.remove('exiting');
+    idx=t;
+    var n=String(idx+1).padStart(2,'0');
+    currEl.textContent=n;
+    menuCurrEl.textContent=n;
+    sectionEl.textContent=next.dataset.section;
+    refreshMenuActive();
+    setTimeout(function(){isAnimating=false},900);
+  },350);
+}
+
+function openMenu(){menuOpen=true;menuOverlay.classList.add('open');menuPanel.classList.add('open');menuBtn.classList.add('open')}
+function closeMenu(){menuOpen=false;menuOverlay.classList.remove('open');menuPanel.classList.remove('open');menuBtn.classList.remove('open')}
+function toggleMenu(){menuOpen?closeMenu():openMenu()}
+
+prevBtn.addEventListener('click',function(){go(idx-1)});
+nextBtn.addEventListener('click',function(){go(idx+1)});
+menuBtn.addEventListener('click',toggleMenu);
+menuOverlay.addEventListener('click',closeMenu);
+
+/* Delegated handler for data-goto links */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-goto]');
+  if(!el)return;
+  e.preventDefault();
+  var n=parseInt(el.dataset.goto,10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length)go(n-1);
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&menuOpen){closeMenu();return}
+  if(menuOpen)return;
+  if(e.key==='ArrowRight')go(idx+1);
+  if(e.key==='ArrowLeft')go(idx-1);
+  if(e.key===' '){e.preventDefault();go(idx+1)}
+  if(e.key==='m'||e.key==='M')toggleMenu();
+  if(/^[1-9]$/.test(e.key))go(parseInt(e.key,10)-1);
+});
+
+/* Touch swipe */
+var tx=0,ty=0,scrolling=false;
+document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;scrolling=false},{passive:true});
+document.addEventListener('touchmove',function(e){
+  var dx=Math.abs(e.touches[0].clientX-tx);
+  var dy=Math.abs(e.touches[0].clientY-ty);
+  if(dy>dx)scrolling=true;
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(scrolling||menuOpen)return;
+  var dx=e.changedTouches[0].clientX-tx;
+  var dy=Math.abs(e.changedTouches[0].clientY-ty);
+  if(Math.abs(dx)>60&&dy<40)dx<0?go(idx+1):go(idx-1);
+},{passive:true});
+})();
+</script>
+</body>
+</html>o(idx-1);
+  if(e.key===' '){e.preventDefault();go(idx+1)}
+  if(e.key==='m'||e.key==='M')toggleMenu();
+  if(/^[1-9]$/.test(e.key))go(parseInt(e.key,10)-1);
+});
+
+/* Touch swipe */
+var tx=0,ty=0,scrolling=false;
+document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;scrolling=false},{passive:true});
+document.addEventListener('touchmove',function(e){
+  var dx=Math.abs(e.touches[0].clientX-tx);
+  var dy=Math.abs(e.touches[0].clientY-ty);
+  if(dy>dx)scrolling=true;
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(scrolling||menuOpen)return;
+  var dx=e.changedTouches[0].clientX-tx;
+  var dy=Math.abs(e.changedTouches[0].clientY-ty);
+  if(Math.abs(dx)>60&&dy<40)dx<0?go(idx+1):go(idx-1);
+},{passive:true});
+})();
+</script>
+</body>
+</html>
